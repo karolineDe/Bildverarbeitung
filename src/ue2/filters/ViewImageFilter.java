@@ -3,6 +3,7 @@ package ue2.filters;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.io.StreamCorruptedException;
 import java.security.InvalidParameterException;
 
 import javax.media.jai.PlanarImage;
@@ -12,6 +13,7 @@ import javax.swing.JScrollPane;
 import com.sun.media.jai.widget.DisplayJAI;
 
 import ue2.filters.DataTransformationFilter;
+import ue2.helpers.ImageSaver;
 import interfaces.Readable;
 import interfaces.Writeable;
 
@@ -23,9 +25,9 @@ public class ViewImageFilter  extends DataTransformationFilter<PlanarImage>{
 
 	PlanarImage _image;
 	
-	public ViewImageFilter(Readable<PlanarImage> input) throws InvalidParameterException {
+	public ViewImageFilter(Readable<PlanarImage> input) throws InvalidParameterException, StreamCorruptedException {
 		super(input);
-		
+		_image = input.read();
 	}
 
 	@Override
@@ -42,7 +44,10 @@ public class ViewImageFilter  extends DataTransformationFilter<PlanarImage>{
 		 
 		 contentPane.add(new JScrollPane(dj),BorderLayout.CENTER);
 		 
-		 frame.setSize(400,400); // adjust the frame size.
+		 frame.setSize(500,400); // adjust the frame size  width/height.
 		 frame.setVisible(true); // show the frame.
-	}	
+		 
+	}
+	
+	
 }

@@ -1,29 +1,64 @@
 package ue2.exe;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.RenderedImage;
+import java.io.StreamCorruptedException;
+import java.security.InvalidParameterException;
+
+import javax.media.jai.PlanarImage;
+
 import ue2.filters.ViewImageFilter;
+import ue2.helpers.ImageSaver;
 import ue2.pipes.ImageStreamSupplierPipe;
 
 public class MainUE2 {
 	
 	public static void main(String[] args) {
 	
+		/** source: image supplier pipe **/
+		ImageStreamSupplierPipe imageStreamSupplierPipe0 = new ImageStreamSupplierPipe("loetstellen.jpg");
+		/** point to save ROI origin **/
+		Point originOfROI = new Point(40,50);
+		
         /*********** 1. das Bild laden und visualisieren */
-		ViewImageFilter viewImageFilter = new ViewImageFilter(new ImageStreamSupplierPipe());
+		ViewImageFilter viewImageFilter = null;
+		try {
+			viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe0);
+			
+		} catch (InvalidParameterException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (StreamCorruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
         /*********** 2. eine ROI (region of interest1) definieren */
-        /* Achtung: man muß nicht den komplizierten ROI Operator in JAI benutzen, sondern kann das Ganze
-        ganz einfach so realisieren: */
-//
-//        Rectangle rectangle = new Rectangle(int x, int y, int width, int height)
-//
-//        PlanarImage image = PlanarImage.wrapRenderedImage((RenderedImage)image.getAsBufferedImage(rectangle,
-//                image.getColorModel()));
+        /* Rectangle, das relevanten Bereich umschliesst: 
+		 * x= 40, y= 50, width= 390, height= 60 */
+		
+		Rectangle rectangle = new Rectangle(40,50,390,60);
+		
+		try {
+			
+			PlanarImage image = viewImageFilter.read();
+			ImageSaver.save(image, "ViewImageFilter1");
+			
+			/**get ROI**/
+			image = PlanarImage.wrapRenderedImage((RenderedImage)image.getAsBufferedImage(rectangle, image.getColorModel()));
+			ImageSaver.save(image, "ViewImageFilter2");
+			
+		
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-        /* wobei image ein PlanarImage ist, und rectangle ein java.awt.Rectangle ist, das die ROI angibt relativ
-        zum Bild (rectangle = new Rectangle(int x, int y, int width, int height)). Achtung: Pixel oben links
-        usgeschnittenen Bildes hat wieder die Koordinaten 0,0. Sie müssen noch etwas tun, damit Sie die
-        Position dieses Pixels im Originalbild mitspeichern im Bild (der letzte Filter braucht das!)
+        /* Achtung: Pixel oben links ausgeschnittenen Bildes hat wieder die Koordinaten 0,0. 
+         * Sie müssen noch etwas tun, damit Sie die Position dieses Pixels im Originalbild mitspeichern 
+         * im Bild (der letzte Filter braucht das!)
         Option für den Benutzer: zeige das Rechteck in weiss mit dem Ausgangsbild */
 
         /*********** 3. einen Operator zur Bildsegmentierung auswählen: Threshold Operator /*

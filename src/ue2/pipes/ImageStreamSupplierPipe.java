@@ -9,10 +9,16 @@ import interfaces.Readable;
 
 public class ImageStreamSupplierPipe implements Readable<PlanarImage> {
 
+	private String _filePath;
+
+	public ImageStreamSupplierPipe(String filePath) {
+		_filePath = filePath;
+	}
+
 	@Override
 	public PlanarImage read() throws StreamCorruptedException {
-		
-		PlanarImage image = JAI.create("fileload", "C:\\FHV\\Semester 5\\Systemarchitekturen\\Uebungen\\Uebung2\\loetstellen.jpg");
+
+		PlanarImage image = JAI.create("fileload", _filePath);
 		return image;
 	}
 }
