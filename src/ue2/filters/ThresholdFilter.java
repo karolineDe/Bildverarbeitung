@@ -31,7 +31,7 @@ public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
         super(input);
         _parameters = parameters;
     }
-    
+
     @Override
     protected void process(PlanarImage image) {
     	

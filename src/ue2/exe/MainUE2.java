@@ -24,8 +24,10 @@ public class MainUE2 {
 		runTaskAPull();
 		
 	//	runTaskAPush();
-		
+	
 	//	runTaskB();
+
+		//runTaskB();
 		
 	}
 	
@@ -63,6 +65,7 @@ private static void runTaskAPull(){
 		_image = PlanarImage.wrapRenderedImage((RenderedImage)_image.getAsBufferedImage(rectangle, _image.getColorModel()));
 		ImageSaver.save(_image, rioFilter);
 		ImageViewer .show(_image, rioFilter);
+
 		
 //		try {
 //		
