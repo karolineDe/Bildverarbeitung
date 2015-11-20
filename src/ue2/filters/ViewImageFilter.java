@@ -15,6 +15,7 @@ import com.sun.media.jai.widget.DisplayJAI;
 
 import ue2.filters.DataTransformationFilter;
 import ue2.helpers.ImageSaver;
+import ue2.helpers.ImageViewer;
 import ue2.pipes.ImageStreamSupplierPipe;
 import interfaces.Readable;
 import interfaces.Writeable;
@@ -40,23 +41,25 @@ public class ViewImageFilter  extends DataTransformationFilter<PlanarImage>{
 	@Override
 	protected void process(PlanarImage entity) {
 		
-		ImageSaver.save(entity, "ViewImageFilter");
+		String filter = "ViewImageFilter";
 		
-		// Create a frame for display.
-		 JFrame frame = new JFrame("ViewImageFilter");
-		 
-		 Container contentPane = frame.getContentPane();
-		 contentPane.setLayout(new BorderLayout());
-		 
-		 // Create an instance of DisplayJAI.
-		 DisplayJAI dj = new DisplayJAI((RenderedImage) entity);
-		 
-		 contentPane.add(new JScrollPane(dj),BorderLayout.CENTER);
-		 
-		 frame.setSize(500,400); // adjust the frame size  width/height.
-		 frame.setVisible(true); // show the frame.
+		ImageSaver.save(entity, filter);
+		
+		
+//		// Create a frame for display.
+//		 JFrame frame = new JFrame("ViewImageFilter");
+//		 
+//		 Container contentPane = frame.getContentPane();
+//		 contentPane.setLayout(new BorderLayout());
+//		 
+//		 // Create an instance of DisplayJAI.
+//		 DisplayJAI dj = new DisplayJAI((RenderedImage) entity);
+//		 
+//		 contentPane.add(new JScrollPane(dj),BorderLayout.CENTER);
+//		 
+//		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		 frame.setSize(500,400); // adjust the frame size  width/height.
+//		 frame.setVisible(true); // show the frame.
 		 
 	}
-	
-	
 }

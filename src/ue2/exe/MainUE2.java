@@ -9,8 +9,10 @@ import java.security.InvalidParameterException;
 import javax.media.jai.PlanarImage;
 
 import ue2.filters.RegionOfInterrestFilter;
+import ue2.filters.ThresholdFilter;
 import ue2.filters.ViewImageFilter;
 import ue2.helpers.ImageSaver;
+import ue2.helpers.ImageViewer;
 import ue2.pipes.BufferedSyncPipe;
 import ue2.pipes.ImageStreamSupplierPipe;
 
@@ -18,9 +20,8 @@ public class MainUE2 {
 	
 	public static void main(String[] args) {
 	
-		//TODO: Zeitmessung der verschiedenen Tasks
-		
-		runTaskAPull();
+		//TODO: Zeitmessung der verschiedenen Tasks		
+		//runTaskAPull();
 		
 	//	runTaskAPush();
 		
@@ -127,25 +128,43 @@ public class MainUE2 {
 	 */
 	private static void runTaskB(){
 		
+		PlanarImage image;
+		
 		/**Pipes**/
 		/** source: image supplier pipe **/
 		ImageStreamSupplierPipe imageStreamSupplierPipe0 = new ImageStreamSupplierPipe("loetstellen.jpg");
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
-		BufferedSyncPipe<PlanarImage> threshholdPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
 		
 		/** point to save ROI origin **/
 		Point originOfROI = new Point(40,50);
 		
-        /*********** 1. das Bild laden und visualisieren */	
+        /*********** 1. das Bild laden und speichern */	
 		new Thread(
-		new ViewImageFilter(imageStreamSupplierPipe0, endOfViewPipe)
+				new ViewImageFilter(imageStreamSupplierPipe0, endOfViewPipe)
 		).start();
-				
+		
+		try {
+			ImageViewer.show(imageStreamSupplierPipe0.read(), "ViewImageFilter");
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
         /*********** 2. eine ROI (region of interest1) definieren */
         /* Rectangle, das relevanten Bereich umschliesst: 
 		 * x= 40, y= 50, width= 390, height= 60 */
-		Rectangle rectangle = new Rectangle(40,50,390,60);				
-		new RegionOfInterrestFilter(endOfViewPipe, threshholdPipe, rectangle);
+		Rectangle rectangle = new Rectangle(40,50,390,60);
+		new Thread(
+				new RegionOfInterrestFilter(imageStreamSupplierPipe0, thresholdPipe, rectangle)
+		).start();
 		
+		
+		/************* 3. Bildsegmentierung Threshold Operator************/
+		double[][] thresholdParameters = {new double[] {0}, new double[] {25}, new double[] {255}};
+		new Thread(
+				new ThresholdFilter(thresholdPipe, searchMedianPipe, thresholdParameters)
+		).start();
 	}
 }

@@ -16,6 +16,5 @@ public class ImageSaver {
 				filePath,
 				FILEEXTENSION
 				);
-	}
-	
+	}	
 }
