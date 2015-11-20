@@ -24,8 +24,10 @@ public class MainUE2 {
 		runTaskAPull();
 		
 	//	runTaskAPush();
-		
+	
 	//	runTaskB();
+
+		//runTaskB();
 		
 	}
 	
@@ -44,7 +46,7 @@ private static void runTaskAPull(){
 			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe0);
 			String filter = "ViewImageFilter";
 			_image = viewImageFilter.read();
-			ImageSaver.save(_image, filter);
+//			ImageSaver.save(_image, filter);
 			ImageViewer.show(_image, filter);
 		} catch (InvalidParameterException | StreamCorruptedException e1) {
 			// TODO Auto-generated catch block
@@ -61,8 +63,9 @@ private static void runTaskAPull(){
 		/**get ROI**/
 		String rioFilter = "Region of InterrestFilter";
 		_image = PlanarImage.wrapRenderedImage((RenderedImage)_image.getAsBufferedImage(rectangle, _image.getColorModel()));
-		ImageSaver.save(_image, rioFilter);
+//		ImageSaver.save(_image, rioFilter);
 		ImageViewer .show(_image, rioFilter);
+
 		
 //		try {
 //		
