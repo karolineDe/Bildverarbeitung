@@ -21,11 +21,11 @@ public class MainUE2 {
 	public static void main(String[] args) {
 	
 		//TODO: Zeitmessung der verschiedenen Tasks		
-		//runTaskAPull();
+		runTaskAPull();
 		
 	//	runTaskAPush();
 		
-		runTaskB();
+		//runTaskB();
 		
 	}
 	
@@ -55,13 +55,16 @@ public class MainUE2 {
 		Rectangle rectangle = new Rectangle(40,50,390,60);
 		
 		try {
-			
+			String filter = "ViewImageFilter";
 			PlanarImage image = viewImageFilter.read();
-			ImageSaver.save(image, "ViewImageFilter1");
+			ImageSaver.save(image, filter);
+			ImageViewer.show(image, filter);
 			
 			/**get ROI**/
+			String rioFilter = "Region of InterrestFilter";
 			image = PlanarImage.wrapRenderedImage((RenderedImage)image.getAsBufferedImage(rectangle, image.getColorModel()));
-			ImageSaver.save(image, "ViewImageFilter2");
+			ImageSaver.save(image, rioFilter);
+			ImageViewer .show(image, rioFilter);
 			
 		
 		} catch (StreamCorruptedException e) {
