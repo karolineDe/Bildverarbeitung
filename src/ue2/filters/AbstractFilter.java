@@ -7,6 +7,8 @@ import interfaces.Writeable;
 import java.io.StreamCorruptedException;
 import java.security.InvalidParameterException;
 
+import javax.media.jai.PlanarImage;
+
 public abstract class AbstractFilter<in, out> implements IOable<in, out>, Runnable {
     private Readable<in> m_Input = null;
     private Writeable<out> m_Output = null;
@@ -37,8 +39,8 @@ public abstract class AbstractFilter<in, out> implements IOable<in, out>, Runnab
         m_Input = input;
         m_Output = output;
     }
-    
-    protected void writeOutput(out value) throws StreamCorruptedException{
+
+	protected void writeOutput(out value) throws StreamCorruptedException{
         if (m_Output != null){
             if (value == ENDING_SIGNAL) beforeSendingEndingSignal();
             m_Output.write(value);

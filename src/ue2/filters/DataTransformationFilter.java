@@ -7,6 +7,8 @@ import interfaces.Writeable;
 import java.io.StreamCorruptedException;
 import java.security.InvalidParameterException;
 
+import javax.media.jai.PlanarImage;
+
 
 
 public abstract class DataTransformationFilter<T> extends AbstractFilter<T,T> {
@@ -26,7 +28,7 @@ public abstract class DataTransformationFilter<T> extends AbstractFilter<T,T> {
 
     }
 
-    public T read() throws StreamCorruptedException {
+	public T read() throws StreamCorruptedException {
         T entity = readInput();
         if (entity != null) process(entity);
         return entity;
