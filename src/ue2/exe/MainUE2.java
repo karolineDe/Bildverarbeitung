@@ -21,16 +21,18 @@ public class MainUE2 {
 	public static void main(String[] args) {
 	
 		//TODO: Zeitmessung der verschiedenen Tasks		
-		//runTaskAPull();
+		runTaskAPull();
 		
 	//	runTaskAPush();
 		
-		runTaskB();
+	//	runTaskB();
 		
 	}
 	
-	private static void runTaskAPull(){
+private static void runTaskAPull(){
 		
+	PlanarImage _image = null;
+	
 		/** source: image supplier pipe **/
 		ImageStreamSupplierPipe imageStreamSupplierPipe0 = new ImageStreamSupplierPipe("loetstellen.jpg");
 		
@@ -38,11 +40,13 @@ public class MainUE2 {
 		Point originOfROI = new Point(40,50);
 		
         /*********** 1. das Bild laden und visualisieren */
-		ViewImageFilter viewImageFilter = null;
 		try {
-			viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe0);
-			
-		} catch (InvalidParameterException e1) {
+			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe0);
+			String filter = "ViewImageFilter";
+			_image = viewImageFilter.read();
+			ImageSaver.save(_image, filter);
+			ImageViewer.show(_image, filter);
+		} catch (InvalidParameterException | StreamCorruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -54,20 +58,11 @@ public class MainUE2 {
 		
 		Rectangle rectangle = new Rectangle(40,50,390,60);
 		
-		try {
-			
-			PlanarImage image = viewImageFilter.read();
-			ImageSaver.save(image, "ViewImageFilter1");
-			
-			/**get ROI**/
-			image = PlanarImage.wrapRenderedImage((RenderedImage)image.getAsBufferedImage(rectangle, image.getColorModel()));
-			ImageSaver.save(image, "ViewImageFilter2");
-			
-		
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		/**get ROI**/
+		String rioFilter = "Region of InterrestFilter";
+		_image = PlanarImage.wrapRenderedImage((RenderedImage)_image.getAsBufferedImage(rectangle, _image.getColorModel()));
+		ImageSaver.save(_image, rioFilter);
+		ImageViewer .show(_image, rioFilter);
 		
 //		try {
 //		
@@ -88,7 +83,6 @@ public class MainUE2 {
     Option für den Benutzer: zeige das Rechteck in weiss mit dem Ausgangsbild */
 
     /*********** 3. einen Operator zur Bildsegmentierung auswählen: Threshold Operator /*
-
     /*********** 3a. Parameterwerte des Operators wählen */
 
     /*********** 4. beseitige lokale Störungen (z.B. schwarzer Fleck im 2. Anschluss von rechts) */
@@ -108,12 +102,7 @@ public class MainUE2 {
      Toleranzbereich der Qualitätskontrolle liegen. Letztere Information wird bei Erzeugung des Filters im
      "main" als Initialisierungsdaten an das Filterobjekt übergeben. Resultat in eine Datei schreiben. */
 
-    /* THREADMODEL  */
-//    Thread aThread = new Thread({
-//            PipedInputStream pis = new PipedInputStream();
-//
-//    }
-		
+   
 		
 	}
 	
