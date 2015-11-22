@@ -34,7 +34,7 @@ public class RegionOfInterestFilter extends DataTransformationFilter<PlanarImage
 	@Override
 	protected void process(PlanarImage image) {
 
-		String filter = "RegionOfInterrestFilter";
+		String filter = "RegionOfInterestFilter";
 
 		/** get ROI **/
 		image = PlanarImage
