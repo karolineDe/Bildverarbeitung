@@ -29,6 +29,12 @@ public class MedianFilter extends DataTransformationFilter<PlanarImage> {
 		_maskSize = maskSize;
 		_maskShape = MedianFilterDescriptor.MEDIAN_MASK_SQUARE;
 	}
+	
+	public MedianFilter(Writeable<PlanarImage> output, Integer maskSize) throws InvalidParameterException {
+		super(output);
+		_maskSize = maskSize;
+		_maskShape = MedianFilterDescriptor.MEDIAN_MASK_SQUARE;
+	}
 
 	@Override
 	protected void process(PlanarImage image) {
