@@ -49,7 +49,7 @@ public class MainUE2 {
 		
 		List<Coordinate> coordinates = new LinkedList<>();
 		/** Fill list of Coordinates **/
-		coordinates.add(new Coordinate(7,77));
+//		coordinates.add(new Coordinate(7,77));
 		coordinates.add(new Coordinate(72, 77));
 		coordinates.add(new Coordinate(137,81));
 		coordinates.add(new Coordinate(202, 81));
