@@ -11,6 +11,7 @@ import javax.media.jai.PlanarImage;
 
 import ue2.helpers.Coordinate;
 import ue2.filters.BallFilter;
+import ue2.filters.CalcCentroidsFilter;
 import ue2.filters.MedianFilter;
 import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
@@ -34,11 +35,11 @@ public class MainUE2 {
 		 * und jedes Kettenglied called sin Vorgänger für Daten
 		 * */
 		
-		// TODO: Zeitmessung der verschiedenen Tasks
+		// TODO: Zeitmessung der verschiedenen Tasks		
 		long timeTaskAPush = System.currentTimeMillis();
 		//runTaskAPush();
 		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
-
+		
 		long timeTaskAPull = System.currentTimeMillis();	
 		//runTaskAPull();
 		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
@@ -262,6 +263,7 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> resultPipe = new BufferedSyncPipe<>(1);
+		
 
 		/*********** 1. das Bild laden und speichern */
 		new Thread(
@@ -333,6 +335,7 @@ public class MainUE2 {
 		 * Initialisierungsdaten an das Filterobjekt übergeben. Resultat in eine
 		 * txt Datei schreiben.
 		 */
+		
 		 
 	}
 }
