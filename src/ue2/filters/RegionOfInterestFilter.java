@@ -34,11 +34,9 @@ public class RegionOfInterestFilter extends DataTransformationFilter<PlanarImage
 	@Override
 	protected void process(PlanarImage image) {
 
-		String filter = "RegionOfInterestFilter";
-
 		/** get ROI **/
 		image = PlanarImage
 				.wrapRenderedImage((RenderedImage) image.getAsBufferedImage(_rectangle, image.getColorModel()));
-		ImageSaver.save(image, filter);
+		ImageSaver.save(image, "RegionOfInterestFilter");
 	}
 }
