@@ -5,9 +5,12 @@ import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import java.io.StreamCorruptedException;
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.media.jai.PlanarImage;
 
+import ue2.entities.Coordinates;
 import ue2.filters.MedianFilter;
 import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
@@ -32,11 +35,11 @@ public class MainUE2 {
 		 * */
 		
 		// TODO: Zeitmessung der verschiedenen Tasks
-		runTaskAPull();
+		//runTaskAPull();
 
 		// runTaskAPush();
 
-		 //runTaskB();
+		 runTaskB();
 
 	}
 
@@ -122,6 +125,7 @@ public class MainUE2 {
 		 * weiterleiten.
 		 */
 
+		
 		/**********
 		 * 7.Scheiben zählen, ihre Zentren (Centroid, siehe unten) bestimmen,
 		 * und prüfen, ob sie im Toleranzbereich der Qualitätskontrolle liegen.
@@ -142,6 +146,10 @@ public class MainUE2 {
 	 * Threaded Task
 	 */
 	private static void runTaskB() {
+		
+//		List<Coordinate> coordinates = new LinkedList<>();
+//		/** Fill list of Coordinates **/
+//		coordinates.addAll(new Coordinate())
 		
 		/** Pipes **/
 		/** source: image supplier pipe **/
