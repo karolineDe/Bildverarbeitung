@@ -21,16 +21,16 @@ public class BallFilter extends DataTransformationFilter<PlanarImage>{
 	/** please do not use strg+shift+f in eclipse because of kernel values format **/
 	/* should be a circle */
 	private static final float[] _kernelValues = new float[]{
-			0,0,0,0,1,1,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,
+			0,0,0,1,1,1,1,0,0,0,
 			0,0,1,1,1,1,1,1,0,0,
 			0,1,1,1,1,1,1,1,1,0,
 			0,1,1,1,1,1,1,1,1,0,
-			1,1,1,1,1,1,1,1,1,1,
-			1,1,1,1,1,1,1,1,1,1,
 			0,1,1,1,1,1,1,1,1,0,
 			0,1,1,1,1,1,1,1,1,0,
 			0,0,1,1,1,1,1,1,0,0,
-			0,0,0,0,1,1,0,0,0,0
+			0,0,0,1,1,1,1,0,0,0,
+			0,0,0,0,0,0,0,0,0,0
 	};
 	
 	private static final KernelJAI _kernel = new KernelJAI(_kernelSize, _kernelSize, _kernelValues);
