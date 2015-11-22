@@ -8,6 +8,7 @@ import javax.media.jai.PlanarImage;
 
 import interfaces.Writeable;
 import ue2.helpers.ImageSaver;
+import ue2.helpers.ImageViewer;
 import interfaces.Readable;
 
 public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
@@ -38,7 +39,6 @@ public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
         ParameterBlock pb = prepareParameterBlock(image, _parameters);
         
         image = JAI.create("threshold", pb);
-
         ImageSaver.save(image, "ThresholdFilter");
     }
 
@@ -53,5 +53,11 @@ public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
         parameterBlock.addSource(image);
         
         return parameterBlock;
+    }
+    
+    public PlanarImage getThImage(PlanarImage image){
+    	ParameterBlock pb = prepareParameterBlock(image, _parameters);
+        
+    	return JAI.create("threshold", pb);
     }
 }
