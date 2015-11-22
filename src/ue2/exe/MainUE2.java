@@ -24,16 +24,6 @@ import ue2.pipes.ImageStreamSupplierPipe;
 public class MainUE2 {
 
 	public static void main(String[] args) {
-
-		/* Tipps: (remove before upload to ilias)
-		 * 
-		 * wenn beim anfang vo da kette was ihetuasch, 
-		 * und jedes Kettenglied as nögste ufrüaft um Daten witrzumgeh 
-		 * isch as push.
-		 * 
-		 * beim pull sesch beim kettenende "i bruch Daten" 
-		 * und jedes Kettenglied called sin Vorgänger für Daten
-		 * */
 		
 		// TODO: Zeitmessung der verschiedenen Tasks		
 		long timeTaskAPush = System.currentTimeMillis();
