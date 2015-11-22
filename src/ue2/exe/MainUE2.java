@@ -3,12 +3,17 @@ package ue2.exe;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
+import java.awt.image.renderable.ParameterBlock;
+import java.awt.image.renderable.RenderableImageOp;
 import java.io.StreamCorruptedException;
 import java.security.InvalidParameterException;
 
+import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
+import javax.media.jai.RenderedOp;
+import javax.media.jai.operator.ThresholdDescriptor;
 
-import ue2.filters.RegionOfInterrestFilter;
+import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
 import ue2.filters.ViewImageFilter;
 import ue2.helpers.ImageSaver;
@@ -33,60 +38,55 @@ public class MainUE2 {
 	
 private static void runTaskAPull(){
 		
-	PlanarImage _image = null;
+	PlanarImage image = null;
+
+	/* Startpunkt der ROI */
+	Point roiOrigin = new Point (40,50);
+	
+    /* Rectangle, das relevanten Bereich umschliesst: 
+	 * x= 40, y= 50, width= 390, height= 60 */		
+	Rectangle roiRectangle = new Rectangle(40,50,390,60);
 	
 		/** source: image supplier pipe **/
-		ImageStreamSupplierPipe imageStreamSupplierPipe0 = new ImageStreamSupplierPipe("loetstellen.jpg");
-		
-		/** point to save ROI origin **/
-		Point originOfROI = new Point(40,50);
-		
+		ImageStreamSupplierPipe imageStreamSupplierPipe = new ImageStreamSupplierPipe("loetstellen.jpg");
+				
         /*********** 1. das Bild laden und visualisieren */
 		try {
-			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe0);
+			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
 			String filter = "ViewImageFilter";
-			_image = viewImageFilter.read();
+			image = viewImageFilter.read();
 //			ImageSaver.save(_image, filter);
-			ImageViewer.show(_image, filter);
+			ImageViewer.show(image, filter);
 		} catch (InvalidParameterException | StreamCorruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		
+		}		
 		
         /*********** 2. eine ROI (region of interest1) definieren */
-        /* Rectangle, das relevanten Bereich umschliesst: 
-		 * x= 40, y= 50, width= 390, height= 60 */
-		
-		Rectangle rectangle = new Rectangle(40,50,390,60);
-		
 		/**get ROI**/
-		String rioFilter = "Region of InterrestFilter";
-		_image = PlanarImage.wrapRenderedImage((RenderedImage)_image.getAsBufferedImage(rectangle, _image.getColorModel()));
-//		ImageSaver.save(_image, rioFilter);
-		ImageViewer .show(_image, rioFilter);
-
-		
-//		try {
-//		
-//		PlanarImage image = viewImageFilter.read();
-//		ImageSaver.save(image, "ViewImageFilter1");
-//		
-//		
-//		
-//	
-//	} catch (StreamCorruptedException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-
-    /* Achtung: Pixel oben links ausgeschnittenen Bildes hat wieder die Koordinaten 0,0. 
-     * Sie müssen noch etwas tun, damit Sie die Position dieses Pixels im Originalbild mitspeichern 
-     * im Bild (der letzte Filter braucht das!)
-    Option für den Benutzer: zeige das Rechteck in weiss mit dem Ausgangsbild */
+		String roiFilter = "RegionOfInterestFilter";
+		image = PlanarImage.wrapRenderedImage((RenderedImage)image.getAsBufferedImage(roiRectangle, image.getColorModel()));
+		ImageSaver.save(image, roiFilter);
+		ImageViewer.show(image, roiFilter);
 
     /*********** 3. einen Operator zur Bildsegmentierung auswählen: Threshold Operator /*
     /*********** 3a. Parameterwerte des Operators wählen */
+		ThresholdDescriptor threshold = new ThresholdDescriptor();
+		
+		ParameterBlock pbExtrema = new ParameterBlock();
+		pbExtrema.addSource(image);
+		
+		double[] imageBands = new double[image.getSampleModel().getNumBands()]; //determine if image is RGB, not necessary in this exercise
+
+		RenderedOp extrema = JAI.create("extrema", pbExtrema);
+		double[] allMinima = (double[]) extrema.getProperty("minimum");
+		double[] allMaxima = (double[]) extrema.getProperty("maximum");
+		double[] constants = imageBands;
+		
+		ParameterBlock pbThreshold = new ParameterBlock();
+		
+		PlanarImage thresholdedImage = JAI.create("threshold", pbThreshold);
+		ImageViewer.show(thresholdedImage, "ThresholdesImage");
 
     /*********** 4. beseitige lokale Störungen (z.B. schwarzer Fleck im 2. Anschluss von rechts) */
 
@@ -101,9 +101,9 @@ private static void runTaskAPull(){
     /********** 6.Resultatbild (ein Bild, in dem nur die „balls“ als Scheiben zu sehen sind.)in einer Datei abspeichern,
     aber nicht als Sink realisieren, sondern nach der Abspeicherung das unveränderte Bild weiterleiten. */
 
-    /********** 7.ie Scheiben zählen, ihre Zentren (Centroid, siehe unten) bestimmen, und prüfen, ob sie im
+    /********** 7.Scheiben zählen, ihre Zentren (Centroid, siehe unten) bestimmen, und prüfen, ob sie im
      Toleranzbereich der Qualitätskontrolle liegen. Letztere Information wird bei Erzeugung des Filters im
-     "main" als Initialisierungsdaten an das Filterobjekt übergeben. Resultat in eine Datei schreiben. */
+     "main" als Initialisierungsdaten an das Filterobjekt übergeben. Resultat in eine txt Datei schreiben. */
 
    
 		
@@ -124,32 +124,32 @@ private static void runTaskAPull(){
 		
 		/**Pipes**/
 		/** source: image supplier pipe **/
-		ImageStreamSupplierPipe imageStreamSupplierPipe0 = new ImageStreamSupplierPipe("loetstellen.jpg");
+		ImageStreamSupplierPipe imageStreamSupplierPipe = new ImageStreamSupplierPipe("loetstellen.jpg");
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
-		
-		/** point to save ROI origin **/
-		Point originOfROI = new Point(40,50);
-		
+				
         /*********** 1. das Bild laden und speichern */	
 		new Thread(
-				new ViewImageFilter(imageStreamSupplierPipe0, endOfViewPipe)
+				new ViewImageFilter(imageStreamSupplierPipe, endOfViewPipe)
 		).start();
 		
 		try {
-			ImageViewer.show(imageStreamSupplierPipe0.read(), "ViewImageFilter");
+			ImageViewer.show(imageStreamSupplierPipe.read(), "ViewImageFilter");
 		} catch (StreamCorruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-        /*********** 2. eine ROI (region of interest1) definieren */
+        /*********** 2. eine ROI (region of interest) definieren */
+		/* Startpunkt der ROI */
+		Point roiOrigin = new Point (40,50);
         /* Rectangle, das relevanten Bereich umschliesst: 
-		 * x= 40, y= 50, width= 390, height= 60 */
-		Rectangle rectangle = new Rectangle(40,50,390,60);
+		 * x= 40, y= 50, width= 390, height= 60 */		
+		Rectangle roiRectangle = new Rectangle(40,50,390,60);
+		
 		new Thread(
-				new RegionOfInterrestFilter(imageStreamSupplierPipe0, thresholdPipe, rectangle)
+				new RegionOfInterestFilter(imageStreamSupplierPipe, thresholdPipe, roiRectangle)
 		).start();
 		
 		

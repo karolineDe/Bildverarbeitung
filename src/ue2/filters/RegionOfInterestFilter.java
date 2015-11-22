@@ -11,23 +11,23 @@ import ue2.helpers.ImageSaver;
 import ue2.helpers.ImageViewer;
 import interfaces.Readable;
 
-public class RegionOfInterrestFilter extends DataTransformationFilter<PlanarImage> {
+public class RegionOfInterestFilter extends DataTransformationFilter<PlanarImage> {
 
     private final Rectangle _rectangle;
 
-    public RegionOfInterrestFilter(Readable<PlanarImage> input, Writeable<PlanarImage> output , Rectangle rectangle)
+    public RegionOfInterestFilter(Readable<PlanarImage> input, Writeable<PlanarImage> output , Rectangle rectangle)
     throws InvalidParameterException {
         super(input, output);
         _rectangle = rectangle;
     }
 
-    public RegionOfInterrestFilter(Readable<PlanarImage> input, Rectangle rectangle)
+    public RegionOfInterestFilter(Readable<PlanarImage> input, Rectangle rectangle)
     throws InvalidParameterException {
         super(input);
         _rectangle = rectangle;
     }
 
-    public RegionOfInterrestFilter(Writeable<PlanarImage> output, Rectangle rectangle)
+    public RegionOfInterestFilter(Writeable<PlanarImage> output, Rectangle rectangle)
     throws InvalidParameterException {
         super(output);
         _rectangle = rectangle;
