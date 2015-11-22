@@ -8,6 +8,8 @@ import java.security.InvalidParameterException;
 
 import javax.media.jai.PlanarImage;
 
+
+import ue2.helpers.Coordinate;
 import ue2.filters.MedianFilter;
 import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
