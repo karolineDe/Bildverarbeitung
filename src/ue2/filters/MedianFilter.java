@@ -1,15 +1,12 @@
 package ue2.filters;
 
-import java.awt.image.BufferedImage;
 import java.awt.image.renderable.ParameterBlock;
 import java.security.InvalidParameterException;
 
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
-import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.MedianFilterDescriptor;
 import javax.media.jai.operator.MedianFilterShape;
-import javax.media.jai.EnumeratedParameter;
 
 import interfaces.Readable;
 import interfaces.Writeable;

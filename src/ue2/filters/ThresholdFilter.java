@@ -8,7 +8,6 @@ import javax.media.jai.PlanarImage;
 
 import interfaces.Writeable;
 import ue2.helpers.ImageSaver;
-import ue2.helpers.ImageViewer;
 import interfaces.Readable;
 
 public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
