@@ -5,12 +5,9 @@ import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import java.io.StreamCorruptedException;
 import java.security.InvalidParameterException;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.media.jai.PlanarImage;
 
-import ue2.entities.Coordinates;
 import ue2.filters.MedianFilter;
 import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
@@ -139,7 +136,66 @@ public class MainUE2 {
 	private static void runTaskAPush() {
 
 		// TODO:
+		PlanarImage thImage = null;
+		PlanarImage medianImage = null;
+		PlanarImage image = null;
+		
+		/** source: image supplier pipe **/
+		ImageStreamSupplierPipe imageStreamSupplierPipe = new ImageStreamSupplierPipe("loetstellen.jpg");
+		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
+		
+		/*
+		 * Rectangle, das relevanten Bereich umschliesst: x= 40, y= 50, width=
+		 * 390, height= 60
+		 */
+		Rectangle roiRectangle = new Rectangle(40, 50, 390, 60);
+		
+		/** Write result to file **/
+		
+		
+		/** Calculate Centeroids **/
+		
+		
+		/** Balls **/
+		
+		
+		/** Median Filter **/
+		Integer maskSize = 6;
+		
+		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, new BufferedSyncPipe<PlanarImage>(1), maskSize);
+		medianImage = medianFilter.getMedianImage(thImage);
+		ImageSaver.save(medianImage, "MedianFilter");
+		ImageViewer.show(medianImage, "MedianFilter");
 
+		
+		/** Threshold Filter **/
+		/* color values: lower range, upper range, end result */
+		double[][] thresholdParameters = { new double[] { 0 }, new double[] { 28 }, new double[] { 255 } };
+
+		ThresholdFilter thresholdFilter = new ThresholdFilter(thresholdPipe, searchMedianPipe, thresholdParameters);
+		thImage = thresholdFilter.getThImage(image);
+		ImageViewer.show(thImage, "ThresholdFilter");
+		
+		/** ROI **/
+		String roiFilter = "RegionOfInterestFilter";
+		image = PlanarImage
+				.wrapRenderedImage((RenderedImage) image.getAsBufferedImage(roiRectangle, image.getColorModel()));
+		ImageSaver.save(image, roiFilter);
+		ImageViewer.show(image, roiFilter);
+
+		/** load Data **/
+		try {
+			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
+			String filter = "ViewImageFilter";
+			image = viewImageFilter.read();
+			// ImageSaver.save(_image, filter);
+			ImageViewer.show(image, filter);
+		} catch (InvalidParameterException | StreamCorruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	/**
