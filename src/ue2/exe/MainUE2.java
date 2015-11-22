@@ -14,6 +14,7 @@ import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.ThresholdDescriptor;
 
+import ue2.filters.MedianFilter;
 import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
 import ue2.filters.ViewImageFilter;
@@ -86,15 +87,18 @@ public class MainUE2 {
 		ThresholdFilter thresholdFilter = new ThresholdFilter(thresholdPipe, searchMedianPipe, thresholdParameters);
 		PlanarImage thImage = thresholdFilter.getThImage(image);
 		ImageViewer.show(thImage, "ThresholdFilter");
-		
-		/***********
-		 * 4. beseitige lokale Störungen (z.B. schwarzer Fleck im 2. Anschluss
-		 * von rechts)
-		 */
 
 		/***********
-		 * 4a.wähle Parameter des Filters: Größe der Maske zur Medianberechnung
+		 * 4. beseitige lokale Störungen (z.B. schwarzer Fleck im 2. Anschluss
+		 * von rechts) 
+		 * 4a.wähle Parameter des Filters: Größe der Maske zur
+		 * Medianberechnung
 		 */
+		Integer maskSize = 5;
+		
+		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, endOfViewPipe, maskSize);
+		PlanarImage medianImage = medianFilter.getMedianImage(thImage);
+		ImageViewer.show(medianImage, "MedianFilter");
 
 		/***********
 		 * 5. nun bleiben noch die Kabelanschlüsse der „balls“; man nutzt die

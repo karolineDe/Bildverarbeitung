@@ -13,33 +13,32 @@ import interfaces.Readable;
 
 public class RegionOfInterestFilter extends DataTransformationFilter<PlanarImage> {
 
-    private final Rectangle _rectangle;
+	private final Rectangle _rectangle;
 
-    public RegionOfInterestFilter(Readable<PlanarImage> input, Writeable<PlanarImage> output , Rectangle rectangle)
-    throws InvalidParameterException {
-        super(input, output);
-        _rectangle = rectangle;
-    }
+	public RegionOfInterestFilter(Readable<PlanarImage> input, Writeable<PlanarImage> output, Rectangle rectangle)
+			throws InvalidParameterException {
+		super(input, output);
+		_rectangle = rectangle;
+	}
 
-    public RegionOfInterestFilter(Readable<PlanarImage> input, Rectangle rectangle)
-    throws InvalidParameterException {
-        super(input);
-        _rectangle = rectangle;
-    }
+	public RegionOfInterestFilter(Readable<PlanarImage> input, Rectangle rectangle) throws InvalidParameterException {
+		super(input);
+		_rectangle = rectangle;
+	}
 
-    public RegionOfInterestFilter(Writeable<PlanarImage> output, Rectangle rectangle)
-    throws InvalidParameterException {
-        super(output);
-        _rectangle = rectangle;
-    }
+	public RegionOfInterestFilter(Writeable<PlanarImage> output, Rectangle rectangle) throws InvalidParameterException {
+		super(output);
+		_rectangle = rectangle;
+	}
 
-    @Override
-    protected void process(PlanarImage image) {
-    	
-    	String filter = "RegionOfInterrestFilter";
-    	
-    	/**get ROI**/
-		image = PlanarImage.wrapRenderedImage((RenderedImage)image.getAsBufferedImage(_rectangle, image.getColorModel()));
+	@Override
+	protected void process(PlanarImage image) {
+
+		String filter = "RegionOfInterrestFilter";
+
+		/** get ROI **/
+		image = PlanarImage
+				.wrapRenderedImage((RenderedImage) image.getAsBufferedImage(_rectangle, image.getColorModel()));
 		ImageSaver.save(image, filter);
-    }
+	}
 }

@@ -42,22 +42,21 @@ public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
         ImageSaver.save(image, "ThresholdFilter");
     }
 
-    private ParameterBlock prepareParameterBlock(PlanarImage image, double[][] parameters) {
-        
-    	ParameterBlock parameterBlock = new ParameterBlock();
+	private ParameterBlock prepareParameterBlock(PlanarImage image, double[][] parameters) {
 
-        for (double[] param : parameters) {
-            parameterBlock.add(param);
-        }
-        
-        parameterBlock.addSource(image);
-        
-        return parameterBlock;
-    }
+		ParameterBlock parameterBlock = new ParameterBlock();
+
+		for (double[] param : parameters) {
+			parameterBlock.add(param);
+		}
+
+		parameterBlock.addSource(image);
+
+		return parameterBlock;
+	}
     
     public PlanarImage getThImage(PlanarImage image){
     	ParameterBlock pb = prepareParameterBlock(image, _parameters);
-        
     	return JAI.create("threshold", pb);
     }
 }
