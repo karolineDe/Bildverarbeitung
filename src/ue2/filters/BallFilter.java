@@ -51,20 +51,38 @@ public class BallFilter extends DataTransformationFilter<PlanarImage>{
 	@Override
 	protected void process(PlanarImage image) {
 		
-	    ParameterBlock pb = new ParameterBlock();
-	    pb.addSource(image);
-	    pb.add(_kernel);
+	    ParameterBlock pb = prepareParameterBlock(image);
 	    
 	    //erode image
 	    PlanarImage outputImage = JAI.create("erode", pb);
 	    
 	    //dilate image
-	    pb = new ParameterBlock();
-	    pb.addSource(outputImage);
-	    pb.add(_kernel);
+	    pb = prepareParameterBlock(outputImage);
 	    outputImage = JAI.create("dilate",pb);
 		
 	    ImageSaver.save(outputImage, "BallFilter");
+	}
+	
+	private ParameterBlock prepareParameterBlock(PlanarImage image){
+		
+		ParameterBlock pb = new ParameterBlock();
+	    pb.addSource(image);
+	    pb.add(_kernel);
+	    
+	    return pb;
+	}
+	
+	public PlanarImage getBallImage(PlanarImage image){
+		ParameterBlock pb = prepareParameterBlock(image);
+	    
+	    //erode image
+	    PlanarImage outputImage = JAI.create("erode", pb);
+	    
+	    //dilate image
+	    pb = prepareParameterBlock(outputImage);
+	    outputImage = JAI.create("dilate",pb);
+	    
+	    return outputImage;
 	}
 
 }
