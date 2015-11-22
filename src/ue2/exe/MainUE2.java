@@ -5,11 +5,14 @@ import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import java.io.StreamCorruptedException;
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.media.jai.PlanarImage;
 
 
 import ue2.helpers.Coordinate;
+import ue2.filters.BallFilter;
 import ue2.filters.MedianFilter;
 import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
@@ -47,7 +50,17 @@ public class MainUE2 {
 		PlanarImage image = null;
 
 		/* Startpunkt der ROI */
-		Point roiOrigin = new Point(40, 50);
+		Coordinate roiOrigin = new Coordinate(40, 50);
+		
+		List<Coordinate> coordinates = new LinkedList<>();
+		/** Fill list of Coordinates **/
+		coordinates.add(new Coordinate(7,77));
+		coordinates.add(new Coordinate(72, 77));
+		coordinates.add(new Coordinate(137,81));
+		coordinates.add(new Coordinate(202, 81));
+		coordinates.add(new Coordinate(266, 80));
+		coordinates.add(new Coordinate(330, 82));
+		coordinates.add(new Coordinate(396, 81));
 
 		/*
 		 * Rectangle, das relevanten Bereich umschliesst: x= 40, y= 50, width=
@@ -142,6 +155,19 @@ public class MainUE2 {
 		PlanarImage medianImage = null;
 		PlanarImage image = null;
 		
+		/* Startpunkt der ROI */
+		Coordinate roiOrigin = new Coordinate(40, 50);
+		
+		List<Coordinate> coordinates = new LinkedList<>();
+		/** Fill list of Coordinates **/
+		coordinates.add(new Coordinate(7,77));
+		coordinates.add(new Coordinate(72, 77));
+		coordinates.add(new Coordinate(137,81));
+		coordinates.add(new Coordinate(202, 81));
+		coordinates.add(new Coordinate(266, 80));
+		coordinates.add(new Coordinate(330, 82));
+		coordinates.add(new Coordinate(396, 81));
+		
 		/** source: image supplier pipe **/
 		ImageStreamSupplierPipe imageStreamSupplierPipe = new ImageStreamSupplierPipe("loetstellen.jpg");
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
@@ -205,9 +231,18 @@ public class MainUE2 {
 	 */
 	private static void runTaskB() {
 		
-//		List<Coordinate> coordinates = new LinkedList<>();
-//		/** Fill list of Coordinates **/
-//		coordinates.addAll(new Coordinate())
+		/* Startpunkt der ROI */
+		Coordinate roiOrigin = new Coordinate(40, 50);
+		
+		List<Coordinate> coordinates = new LinkedList<>();
+		/** Fill list of Coordinates **/
+		coordinates.add(new Coordinate(7,77));
+		coordinates.add(new Coordinate(72, 77));
+		coordinates.add(new Coordinate(137,81));
+		coordinates.add(new Coordinate(202, 81));
+		coordinates.add(new Coordinate(266, 80));
+		coordinates.add(new Coordinate(330, 82));
+		coordinates.add(new Coordinate(396, 81));
 		
 		/** Pipes **/
 		/** source: image supplier pipe **/
@@ -216,6 +251,7 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> resultPipe = new BufferedSyncPipe<>(1);
 
 		/*********** 1. das Bild laden und speichern */
 		new Thread(
@@ -268,7 +304,9 @@ public class MainUE2 {
 		 * 5a. wähle Parameter des Operators: Größe der Maske (Alternative:
 		 * laufe mehrmals mit dem Operator über das Bild)
 		 */
-
+		new Thread(
+				new BallFilter(ballPipe, resultPipe)
+		).start();
 		
 		
 		/**********
