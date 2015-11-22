@@ -23,7 +23,6 @@ public class CalcCentroidsFilter extends DataEnrichmentFilter<PlanarImage, Linke
 	private LinkedList<LinkedList<Coordinate>> _figures = new LinkedList<LinkedList<Coordinate>>();
 	private PlanarImage _image;
 	
-	
 	public CalcCentroidsFilter(Readable<PlanarImage> input) throws InvalidParameterException {
 		super(input);
 	}
@@ -48,7 +47,6 @@ public class CalcCentroidsFilter extends DataEnrichmentFilter<PlanarImage, Linke
 	protected LinkedList<Coordinate> getNewEntityObject() {
 		return new LinkedList<Coordinate>();
 	}
-
 
 	
 	private Coordinate[] process(PlanarImage entity) {

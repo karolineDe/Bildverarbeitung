@@ -25,17 +25,16 @@ public class MainUE2 {
 
 	public static void main(String[] args) {
 		
-		// TODO: Zeitmessung der verschiedenen Tasks		
 		long timeTaskAPush = System.currentTimeMillis();
-		//runTaskAPush();
+		runTaskAPush();
 		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
 		
 		long timeTaskAPull = System.currentTimeMillis();	
-		//runTaskAPull();
+//		runTaskAPull();
 		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
 
 		long timeTaskB = System.currentTimeMillis();
-		 runTaskB();
+//		 runTaskB();
 		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
 
 	}
@@ -122,28 +121,38 @@ public class MainUE2 {
 		 *
 		 * 5a. wähle Parameter des Operators: Größe der Maske (Alternative:
 		 * laufe mehrmals mit dem Operator über das Bild)
+		 *
+		 * 6.Resultatbild (ein Bild, in dem nur die „balls“ als Scheiben zu
+		 * sehen sind.)in einer Datei abspeichern, aber nicht als Sink
+		 * realisieren, sondern nach der Abspeicherung das unveränderte Bild
+		 * weiterleiten.
 		 */
+		
 		BallFilter ballFilter = new BallFilter(searchMedianPipe, endOfViewPipe);
 		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
 		ImageSaver.save(ballImage, "BallFilter");
 		ImageViewer.show(ballImage, "BallFilter");
 		
 		/**********
-		 * 6.Resultatbild (ein Bild, in dem nur die „balls“ als Scheiben zu
-		 * sehen sind.)in einer Datei abspeichern, aber nicht als Sink
-		 * realisieren, sondern nach der Abspeicherung das unveränderte Bild
-		 * weiterleiten.
-		 */
-
-		
-		/**********
-		 * 7.Scheiben zählen, ihre Zentren (Centroid, siehe unten) bestimmen,
+		 * 7.Scheiben zählen, ihre Zentren bestimmen,
 		 * und prüfen, ob sie im Toleranzbereich der Qualitätskontrolle liegen.
 		 * Letztere Information wird bei Erzeugung des Filters im "main" als
 		 * Initialisierungsdaten an das Filterobjekt übergeben. Resultat in eine
 		 * txt Datei schreiben.
 		 */
-
+		
+		/* no idea how to use this */
+		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(endOfViewPipe);
+		
+		LinkedList<Coordinate> results = new LinkedList<>();
+		
+		try {
+			results = calcCentroidsFilter.read();
+			System.out.println(results);
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private static void runTaskAPull() {
