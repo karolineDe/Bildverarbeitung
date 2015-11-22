@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.media.jai.PlanarImage;
 
-
 import ue2.helpers.Coordinate;
 import ue2.filters.BallFilter;
 import ue2.filters.MedianFilter;
@@ -37,11 +36,11 @@ public class MainUE2 {
 		 * */
 		
 		// TODO: Zeitmessung der verschiedenen Tasks
-		//runTaskAPull();
+		runTaskAPull();
 
 		// runTaskAPush();
 
-		 runTaskB();
+		 //runTaskB();
 
 	}
 
@@ -127,8 +126,10 @@ public class MainUE2 {
 		 * 5a. wähle Parameter des Operators: Größe der Maske (Alternative:
 		 * laufe mehrmals mit dem Operator über das Bild)
 		 */
-
-		
+		BallFilter ballFilter = new BallFilter(searchMedianPipe, endOfViewPipe);
+		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
+		ImageSaver.save(ballImage, "BallFilter");
+		ImageViewer.show(ballImage, "BallFilter");
 		
 		/**********
 		 * 6.Resultatbild (ein Bild, in dem nur die „balls“ als Scheiben zu
@@ -266,8 +267,6 @@ public class MainUE2 {
 		}
 
 		/*********** 2. eine ROI (region of interest) definieren */
-		/* Startpunkt der ROI */
-		Point roiOrigin = new Point(40, 50);
 		/*
 		 * Rectangle, das relevanten Bereich umschliesst: x= 40, y= 50, width=
 		 * 390, height= 60
