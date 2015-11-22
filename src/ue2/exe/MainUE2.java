@@ -36,14 +36,14 @@ public class MainUE2 {
 		
 		// TODO: Zeitmessung der verschiedenen Tasks
 		long timeTaskAPush = System.currentTimeMillis();
-		runTaskAPush();
+		//runTaskAPush();
 		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
 
-		long timeTaskAPull = -System.currentTimeMillis();	
-		runTaskAPull();
+		long timeTaskAPull = System.currentTimeMillis();	
+		//runTaskAPull();
 		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
 
-		long timeTaskB = -System.currentTimeMillis();
+		long timeTaskB = System.currentTimeMillis();
 		 runTaskB();
 		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
 
