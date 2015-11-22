@@ -40,11 +40,11 @@ public class MainUE2 {
 		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
 
 		long timeTaskAPull = -System.currentTimeMillis();	
-		// runTaskAPull();
+		runTaskAPull();
 		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
 
 		long timeTaskB = -System.currentTimeMillis();
-		 //runTaskB();
+		 runTaskB();
 		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
 
 	}
@@ -77,7 +77,7 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
-		BufferedSyncPipe<PlanarImage> resultpipe = new BufferedSyncPipe<>(1);
+		
 
 		/*********** 1. das Bild laden und visualisieren */
 		try {
