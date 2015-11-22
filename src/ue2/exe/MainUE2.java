@@ -72,6 +72,7 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> resultpipe = new BufferedSyncPipe<>(1);
 
 		/*********** 1. das Bild laden und visualisieren */
 		try {
@@ -188,7 +189,10 @@ public class MainUE2 {
 		
 		
 		/** Balls **/
-		
+		BallFilter ballFilter = new BallFilter(searchMedianPipe, endOfViewPipe);
+		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
+		ImageSaver.save(ballImage, "BallFilter");
+		ImageViewer.show(ballImage, "BallFilter");
 		
 		/** Median Filter **/
 		Integer maskSize = 6;
