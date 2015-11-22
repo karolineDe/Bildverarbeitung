@@ -1,6 +1,5 @@
 package ue2.exe;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import java.io.StreamCorruptedException;
@@ -36,15 +35,21 @@ public class MainUE2 {
 		 * */
 		
 		// TODO: Zeitmessung der verschiedenen Tasks
-		runTaskAPull();
+		long timeTaskAPush = System.currentTimeMillis();
+		runTaskAPush();
+		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
 
-		// runTaskAPush();
+		long timeTaskAPull = -System.currentTimeMillis();	
+		// runTaskAPull();
+		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
 
+		long timeTaskB = -System.currentTimeMillis();
 		 //runTaskB();
+		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
 
 	}
 
-	private static void runTaskAPull() {
+	private static void runTaskAPush() {
 
 		PlanarImage image = null;
 
@@ -150,7 +155,7 @@ public class MainUE2 {
 
 	}
 
-	private static void runTaskAPush() {
+	private static void runTaskAPull() {
 
 		// TODO:
 		PlanarImage thImage = null;
