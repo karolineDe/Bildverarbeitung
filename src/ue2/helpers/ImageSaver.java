@@ -6,15 +6,11 @@ import javax.media.jai.PlanarImage;
 public class ImageSaver {
 
 	private static final String FILEEXTENSION = "JPEG";
-	
-	public static void save (PlanarImage image, String filter){
-		String filePath = filter + "." + FILEEXTENSION;
+
+	public static void save(PlanarImage image, String filter) {
 		
-		JAI.create(
-				"filestore", 
-				image,
-				filePath,
-				FILEEXTENSION
-				);
-	}	
+		String filePath = filter + "." + FILEEXTENSION;
+
+		JAI.create("filestore", image, filePath, FILEEXTENSION);
+	}
 }

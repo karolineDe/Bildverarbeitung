@@ -94,23 +94,24 @@ public class MainUE2 {
 		 * 4a.wähle Parameter des Filters: Größe der Maske zur
 		 * Medianberechnung
 		 */
-		Integer maskSize = 5;
+		Integer maskSize = 6;
 		
-		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, endOfViewPipe, maskSize);
+		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, new BufferedSyncPipe<PlanarImage>(1), maskSize);
 		PlanarImage medianImage = medianFilter.getMedianImage(thImage);
+		ImageSaver.save(medianImage, "MedianFilter");
 		ImageViewer.show(medianImage, "MedianFilter");
 
 		/***********
 		 * 5. nun bleiben noch die Kabelanschlüsse der „balls“; man nutzt die
 		 * Kreisform der Balls aus und benutzt einen Opening-Operator mit
 		 * kreisförmiger Maske (in JAI: "erode" und „dilate“):
-		 */
-
-		/**********
+		 *
 		 * 5a. wähle Parameter des Operators: Größe der Maske (Alternative:
 		 * laufe mehrmals mit dem Operator über das Bild)
 		 */
 
+		
+		
 		/**********
 		 * 6.Resultatbild (ein Bild, in dem nur die „balls“ als Scheiben zu
 		 * sehen sind.)in einer Datei abspeichern, aber nicht als Sink
