@@ -68,6 +68,9 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> centroidsPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<LinkedList<Coordinate>> coordinatesPipe = new BufferedSyncPipe<>(1);
 
 		/*********** 1. das Bild laden und visualisieren */
 		try {
@@ -108,7 +111,7 @@ public class MainUE2 {
 		 */
 		Integer maskSize = 6;
 		
-		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, new BufferedSyncPipe<PlanarImage>(1), maskSize);
+		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, ballPipe, maskSize);
 		PlanarImage medianImage = medianFilter.getMedianImage(thImage);
 		ImageSaver.save(medianImage, "MedianFilter");
 		ImageViewer.show(medianImage, "MedianFilter");
@@ -140,8 +143,7 @@ public class MainUE2 {
 		 * txt Datei schreiben.
 		 */
 		
-		/* no idea how to use this */
-		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(endOfViewPipe);
+		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(centroidsPipe, coordinatesPipe);
 		
 		LinkedList<Coordinate> results = new LinkedList<>();
 		
