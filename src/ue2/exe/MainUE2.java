@@ -18,26 +18,24 @@ import ue2.helpers.ImageSaver;
 import ue2.helpers.ImageViewer;
 import ue2.pipes.BufferedSyncPipe;
 import ue2.pipes.ImageStreamSupplierPipe;
+import ue2.pipes.OutputFileSink;
 
 public class MainUE2 {
 
 	public static void main(String[] args) {
 		
 		long timeTaskAPush = System.currentTimeMillis();
-//		runTaskAPush();
+		runTaskAPush();
 		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
 		
 		long timeTaskAPull = System.currentTimeMillis();	
 //		runTaskAPull();
 		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
 
-		long totalTimeTaskB = System.currentTimeMillis();
-			for(int i = 0; i < 50; i++){
-				long timeTaskB = System.currentTimeMillis();
-				 runTaskB();
-				System.out.println("Zeit Task b "+i+": " + (System.currentTimeMillis()-timeTaskB)+"ms");
-			}
-			System.out.println("Total time:"+ (System.currentTimeMillis()-totalTimeTaskB)+"ms");
+		long timeTaskB = System.currentTimeMillis();
+//		 runTaskB();
+		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
+
 	}
 
 	private static void runTaskAPush() {
@@ -47,7 +45,7 @@ public class MainUE2 {
 		/* Startpunkt der ROI */
 		Coordinate roiOrigin = new Coordinate(40, 50);
 		
-		List<Coordinate> coordinates = new LinkedList<>();
+		LinkedList<Coordinate> coordinates = new LinkedList<>();
 		/** Fill list of Coordinates **/
 //		coordinates.add(new Coordinate(7,77));
 		coordinates.add(new Coordinate(72, 77));
@@ -130,7 +128,7 @@ public class MainUE2 {
 		 * weiterleiten.
 		 */
 		
-		BallFilter ballFilter = new BallFilter(searchMedianPipe, endOfViewPipe);
+		BallFilter ballFilter = new BallFilter(ballPipe, centroidsPipe);
 		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
 		ImageSaver.save(ballImage, "BallFilter");
 		ImageViewer.show(ballImage, "BallFilter");
@@ -143,17 +141,17 @@ public class MainUE2 {
 		 * txt Datei schreiben.
 		 */
 		
+		LinkedList<Coordinate> results = new LinkedList<>();
 		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(centroidsPipe, coordinatesPipe);
 		
-		LinkedList<Coordinate> results = new LinkedList<>();
-		
 		try {
-			results = calcCentroidsFilter.read();
-			System.out.println(results);
+			results.addAll(calcCentroidsFilter.read());
 		} catch (StreamCorruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		OutputFileSink<LinkedList<Coordinate>> sink = new OutputFileSink<>("results.txt");
 	}
 
 	private static void runTaskAPull() {
