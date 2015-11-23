@@ -26,7 +26,7 @@ public class MainUE2 {
 	public static void main(String[] args) {
 		
 		long timeTaskAPush = System.currentTimeMillis();
-		runTaskAPush();
+//		runTaskAPush();
 		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
 		
 		long timeTaskAPull = System.currentTimeMillis();	
@@ -34,7 +34,7 @@ public class MainUE2 {
 		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
 
 		long timeTaskB = System.currentTimeMillis();
-//		 runTaskB();
+		 runTaskB();
 		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
 
 	}
@@ -67,19 +67,30 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
-		
 
 		/*********** 1. das Bild laden und visualisieren */
 		try {
-			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
-			String filter = "ViewImageFilter";
-			image = viewImageFilter.read();
-			// ImageSaver.save(_image, filter);
-			ImageViewer.show(image, filter);
-		} catch (InvalidParameterException | StreamCorruptedException e1) {
+			image = imageStreamSupplierPipe.read();
+		} catch (StreamCorruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+				
+		ImageSaver.save(image, "Original");
+		ImageViewer.show(image, "Original");
+		
+
+
+//		try {
+//			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
+//			String filter = "ViewImageFilter";
+//			image = viewImageFilter.read();
+//			
+//			
+//		} catch (InvalidParameterException | StreamCorruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 
 		/*********** 2. eine ROI (region of interest1) definieren */
 		/** get ROI **/
@@ -224,22 +235,34 @@ public class MainUE2 {
 		ImageViewer.show(image, roiFilter);
 
 		/** load Data **/
+//		try {
+//			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
+//			String filter = "ViewImageFilter";
+//			image = viewImageFilter.read();
+//			// ImageSaver.save(_image, filter);
+//			ImageViewer.show(image, filter);
+//		} catch (InvalidParameterException | StreamCorruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+		
 		try {
-			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
-			String filter = "ViewImageFilter";
-			image = viewImageFilter.read();
-			// ImageSaver.save(_image, filter);
-			ImageViewer.show(image, filter);
-		} catch (InvalidParameterException | StreamCorruptedException e1) {
+			image = imageStreamSupplierPipe.read();
+		} catch (StreamCorruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+				
+		ImageSaver.save(image, "Original");
+		ImageViewer.show(image, "Original");
 	}
 
 	/**
 	 * Threaded Task
 	 */
 	private static void runTaskB() {
+		
+		PlanarImage image = null;
 		
 		/* Startpunkt der ROI */
 		Coordinate roiOrigin = new Coordinate(40, 50);
@@ -263,18 +286,26 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> resultPipe = new BufferedSyncPipe<>(1);
 		
-
-		/*********** 1. das Bild laden und speichern */
-		new Thread(
-				new ViewImageFilter(imageStreamSupplierPipe, endOfViewPipe)
-		).start();
-
+		/*********** 1. das Bild laden und visualisieren */
 		try {
-			ImageViewer.show(imageStreamSupplierPipe.read(), "ViewImageFilter");
-		} catch (StreamCorruptedException e) {
+			image = imageStreamSupplierPipe.read();
+		} catch (StreamCorruptedException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+				
+		ImageSaver.save(image, "Original");
+		ImageViewer.show(image, "Original");
+//		new Thread(
+//				new ViewImageFilter(imageStreamSupplierPipe, endOfViewPipe)
+//		).start();
+//
+//		try {
+//			ImageViewer.show(imageStreamSupplierPipe.read(), "ViewImageFilter");
+//		} catch (StreamCorruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		/*********** 2. eine ROI (region of interest) definieren */
 		/*

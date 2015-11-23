@@ -31,7 +31,7 @@ public class ViewImageFilter  extends DataTransformationFilter<PlanarImage>{
 		String filter = "ViewImageFilter";
 		
 		ImageSaver.save(entity, filter);
-//		ImageViewer.show(entity, filter);
+		ImageViewer.show(entity, filter);
 		 
 	}
 }
