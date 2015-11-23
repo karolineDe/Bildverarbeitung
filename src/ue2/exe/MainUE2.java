@@ -31,10 +31,13 @@ public class MainUE2 {
 //		runTaskAPull();
 		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
 
-		long timeTaskB = System.currentTimeMillis();
-		 runTaskB();
-		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
-
+		long totalTimeTaskB = System.currentTimeMillis();
+			for(int i = 0; i < 50; i++){
+				long timeTaskB = System.currentTimeMillis();
+				 runTaskB();
+				System.out.println("Zeit Task b "+i+": " + (System.currentTimeMillis()-timeTaskB)+"ms");
+			}
+			System.out.println("Total time:"+ (System.currentTimeMillis()-totalTimeTaskB)+"ms");
 	}
 
 	private static void runTaskAPush() {
