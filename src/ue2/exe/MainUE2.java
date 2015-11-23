@@ -76,19 +76,6 @@ public class MainUE2 {
 				
 		ImageSaver.save(image, "Original");
 		ImageViewer.show(image, "Original");
-		
-
-
-//		try {
-//			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
-//			String filter = "ViewImageFilter";
-//			image = viewImageFilter.read();
-//			
-//			
-//		} catch (InvalidParameterException | StreamCorruptedException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
 
 		/*********** 2. eine ROI (region of interest1) definieren */
 		/** get ROI **/
@@ -233,17 +220,6 @@ public class MainUE2 {
 		ImageViewer.show(image, roiFilter);
 
 		/** load Data **/
-//		try {
-//			ViewImageFilter viewImageFilter = new ViewImageFilter(imageStreamSupplierPipe);
-//			String filter = "ViewImageFilter";
-//			image = viewImageFilter.read();
-//			// ImageSaver.save(_image, filter);
-//			ImageViewer.show(image, filter);
-//		} catch (InvalidParameterException | StreamCorruptedException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-		
 		try {
 			image = imageStreamSupplierPipe.read();
 		} catch (StreamCorruptedException e1) {
@@ -294,17 +270,6 @@ public class MainUE2 {
 				
 		ImageSaver.save(image, "Original");
 		ImageViewer.show(image, "Original");
-		
-//		new Thread(
-//				new ViewImageFilter(imageStreamSupplierPipe, endOfViewPipe)
-//		).start();
-//
-//		try {
-//			ImageViewer.show(imageStreamSupplierPipe.read(), "ViewImageFilter");
-//		} catch (StreamCorruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 
 		/*********** 2. eine ROI (region of interest) definieren */
 		/*
