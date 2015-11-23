@@ -24,18 +24,18 @@ import ue2.pipes.ImageStreamSupplierPipe;
 public class MainUE2 {
 
 	public static void main(String[] args) {
-		
+
 		long timeTaskAPush = System.currentTimeMillis();
 		runTaskAPush();
-		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis()-timeTaskAPush)+"ms");
-		
-		long timeTaskAPull = System.currentTimeMillis();	
-//		runTaskAPull();
-		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis()-timeTaskAPull)+"ms");
+		System.out.println("Zeit Task a (push): " + (System.currentTimeMillis() - timeTaskAPush) + "ms");
+
+		long timeTaskAPull = System.currentTimeMillis();
+		// runTaskAPull();
+		System.out.println("Zeit Task a (pull): " + (System.currentTimeMillis() - timeTaskAPull) + "ms");
 
 		long timeTaskB = System.currentTimeMillis();
-//		 runTaskB();
-		System.out.println("Zeit Task b: " + (System.currentTimeMillis()-timeTaskB)+"ms");
+		// runTaskB();
+		System.out.println("Zeit Task b: " + (System.currentTimeMillis() - timeTaskB) + "ms");
 
 	}
 
@@ -45,12 +45,12 @@ public class MainUE2 {
 
 		/* Startpunkt der ROI */
 		Coordinate roiOrigin = new Coordinate(40, 50);
-		
+
 		List<Coordinate> coordinates = new LinkedList<>();
 		/** Fill list of Coordinates **/
-//		coordinates.add(new Coordinate(7,77));
+		// coordinates.add(new Coordinate(7,77));
 		coordinates.add(new Coordinate(72, 77));
-		coordinates.add(new Coordinate(137,81));
+		coordinates.add(new Coordinate(137, 81));
 		coordinates.add(new Coordinate(202, 81));
 		coordinates.add(new Coordinate(266, 80));
 		coordinates.add(new Coordinate(330, 82));
@@ -67,7 +67,9 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
-		
+		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<PlanarImage> centroidsPipe = new BufferedSyncPipe<>(1);
+		BufferedSyncPipe<LinkedList<Coordinate>> coordinatesPipe = new BufferedSyncPipe<>(1);
 
 		/*********** 1. das Bild laden und visualisieren */
 		try {
@@ -88,7 +90,6 @@ public class MainUE2 {
 				.wrapRenderedImage((RenderedImage) image.getAsBufferedImage(roiRectangle, image.getColorModel()));
 		ImageSaver.save(image, roiFilter);
 		ImageViewer.show(image, roiFilter);
-		
 
 		/***********
 		 * 3. einen Operator zur Bildsegmentierung auswählen: Threshold Operator
@@ -103,13 +104,12 @@ public class MainUE2 {
 
 		/***********
 		 * 4. beseitige lokale Störungen (z.B. schwarzer Fleck im 2. Anschluss
-		 * von rechts) 
-		 * 4a.wähle Parameter des Filters: Größe der Maske zur
+		 * von rechts) 4a.wähle Parameter des Filters: Größe der Maske zur
 		 * Medianberechnung
 		 */
 		Integer maskSize = 6;
-		
-		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, new BufferedSyncPipe<PlanarImage>(1), maskSize);
+
+		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, ballPipe, maskSize);
 		PlanarImage medianImage = medianFilter.getMedianImage(thImage);
 		ImageSaver.save(medianImage, "MedianFilter");
 		ImageViewer.show(medianImage, "MedianFilter");
@@ -127,25 +127,30 @@ public class MainUE2 {
 		 * realisieren, sondern nach der Abspeicherung das unveränderte Bild
 		 * weiterleiten.
 		 */
-		
-		BallFilter ballFilter = new BallFilter(searchMedianPipe, endOfViewPipe);
+
+		BallFilter ballFilter = new BallFilter(ballPipe, centroidsPipe);
 		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
 		ImageSaver.save(ballImage, "BallFilter");
 		ImageViewer.show(ballImage, "BallFilter");
-		
+
 		/**********
-		 * 7.Scheiben zählen, ihre Zentren bestimmen,
-		 * und prüfen, ob sie im Toleranzbereich der Qualitätskontrolle liegen.
-		 * Letztere Information wird bei Erzeugung des Filters im "main" als
-		 * Initialisierungsdaten an das Filterobjekt übergeben. Resultat in eine
-		 * txt Datei schreiben.
+		 * 7.Scheiben zählen, ihre Zentren bestimmen, und prüfen, ob sie im
+		 * Toleranzbereich der Qualitätskontrolle liegen. Letztere Information
+		 * wird bei Erzeugung des Filters im "main" als Initialisierungsdaten an
+		 * das Filterobjekt übergeben. Resultat in eine txt Datei schreiben.
 		 */
-		
-		/* no idea how to use this */
-		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(endOfViewPipe);
-		
+
+		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(centroidsPipe, coordinatesPipe);
+
+		/***
+		 * new CoordinatesSink<List<Coordinate»(expectedCoordinatesList,
+		 * coordinatesPipe); <- compares expected coordinates with real ones
+		 * from CalcCentroidsFilter, probably writes a file with results of the
+		 * comparison.
+		 ***/
+
 		LinkedList<Coordinate> results = new LinkedList<>();
-		
+
 		try {
 			results = calcCentroidsFilter.read();
 			System.out.println(results);
@@ -161,53 +166,50 @@ public class MainUE2 {
 		PlanarImage thImage = null;
 		PlanarImage medianImage = null;
 		PlanarImage image = null;
-		
+
 		/* Startpunkt der ROI */
 		Coordinate roiOrigin = new Coordinate(40, 50);
-		
+
 		List<Coordinate> coordinates = new LinkedList<>();
 		/** Fill list of Coordinates **/
-		coordinates.add(new Coordinate(7,77));
+		coordinates.add(new Coordinate(7, 77));
 		coordinates.add(new Coordinate(72, 77));
-		coordinates.add(new Coordinate(137,81));
+		coordinates.add(new Coordinate(137, 81));
 		coordinates.add(new Coordinate(202, 81));
 		coordinates.add(new Coordinate(266, 80));
 		coordinates.add(new Coordinate(330, 82));
 		coordinates.add(new Coordinate(396, 81));
-		
+
 		/** source: image supplier pipe **/
 		ImageStreamSupplierPipe imageStreamSupplierPipe = new ImageStreamSupplierPipe("loetstellen.jpg");
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
-		
+
 		/*
 		 * Rectangle, das relevanten Bereich umschliesst: x= 40, y= 50, width=
 		 * 390, height= 60
 		 */
 		Rectangle roiRectangle = new Rectangle(40, 50, 390, 60);
-		
+
 		/** Write result to file **/
-		
-		
+
 		/** Calculate Centeroids **/
-		
-		
+
 		/** Balls **/
 		BallFilter ballFilter = new BallFilter(searchMedianPipe, endOfViewPipe);
 		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
 		ImageSaver.save(ballImage, "BallFilter");
 		ImageViewer.show(ballImage, "BallFilter");
-		
+
 		/** Median Filter **/
 		Integer maskSize = 6;
-		
+
 		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, new BufferedSyncPipe<PlanarImage>(1), maskSize);
 		medianImage = medianFilter.getMedianImage(thImage);
 		ImageSaver.save(medianImage, "MedianFilter");
 		ImageViewer.show(medianImage, "MedianFilter");
 
-		
 		/** Threshold Filter **/
 		/* color values: lower range, upper range, end result */
 		double[][] thresholdParameters = { new double[] { 0 }, new double[] { 28 }, new double[] { 255 } };
@@ -215,7 +217,7 @@ public class MainUE2 {
 		ThresholdFilter thresholdFilter = new ThresholdFilter(thresholdPipe, searchMedianPipe, thresholdParameters);
 		thImage = thresholdFilter.getThImage(image);
 		ImageViewer.show(thImage, "ThresholdFilter");
-		
+
 		/** ROI **/
 		String roiFilter = "RegionOfInterestFilter";
 		image = PlanarImage
@@ -240,20 +242,20 @@ public class MainUE2 {
 	 * Threaded Task
 	 */
 	private static void runTaskB() {
-		
+
 		/* Startpunkt der ROI */
 		Coordinate roiOrigin = new Coordinate(40, 50);
-		
+
 		List<Coordinate> coordinates = new LinkedList<>();
 		/** Fill list of Coordinates **/
-		coordinates.add(new Coordinate(7,77));
+		coordinates.add(new Coordinate(7, 77));
 		coordinates.add(new Coordinate(72, 77));
-		coordinates.add(new Coordinate(137,81));
+		coordinates.add(new Coordinate(137, 81));
 		coordinates.add(new Coordinate(202, 81));
 		coordinates.add(new Coordinate(266, 80));
 		coordinates.add(new Coordinate(330, 82));
 		coordinates.add(new Coordinate(396, 81));
-		
+
 		/** Pipes **/
 		/** source: image supplier pipe **/
 		ImageStreamSupplierPipe imageStreamSupplierPipe = new ImageStreamSupplierPipe("loetstellen.jpg");
@@ -262,12 +264,9 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> resultPipe = new BufferedSyncPipe<>(1);
-		
 
 		/*********** 1. das Bild laden und speichern */
-		new Thread(
-				new ViewImageFilter(imageStreamSupplierPipe, endOfViewPipe)
-		).start();
+		new Thread(new ViewImageFilter(imageStreamSupplierPipe, endOfViewPipe)).start();
 
 		try {
 			ImageViewer.show(imageStreamSupplierPipe.read(), "ViewImageFilter");
@@ -283,28 +282,21 @@ public class MainUE2 {
 		 */
 		Rectangle roiRectangle = new Rectangle(40, 50, 390, 60);
 
-		new Thread(
-				new RegionOfInterestFilter(imageStreamSupplierPipe, thresholdPipe, roiRectangle)
-		).start();
+		new Thread(new RegionOfInterestFilter(imageStreamSupplierPipe, thresholdPipe, roiRectangle)).start();
 
 		/************* 3. Bildsegmentierung Threshold Operator ************/
 		double[][] thresholdParameters = { new double[] { 0 }, new double[] { 28 }, new double[] { 255 } };
-		new Thread(
-				new ThresholdFilter(thresholdPipe, searchMedianPipe, thresholdParameters)
-		).start();
-		
+		new Thread(new ThresholdFilter(thresholdPipe, searchMedianPipe, thresholdParameters)).start();
+
 		/***********
 		 * 4. beseitige lokale Störungen (z.B. schwarzer Fleck im 2. Anschluss
-		 * von rechts) 
-		 * 4a.wähle Parameter des Filters: Größe der Maske zur
+		 * von rechts) 4a.wähle Parameter des Filters: Größe der Maske zur
 		 * Medianberechnung
 		 */
 		Integer maskSize = 6;
-		
-		new Thread(
-				new MedianFilter(searchMedianPipe, ballPipe, maskSize)
-		).start();
-		
+
+		new Thread(new MedianFilter(searchMedianPipe, ballPipe, maskSize)).start();
+
 		/***********
 		 * 5. nun bleiben noch die Kabelanschlüsse der „balls“; man nutzt die
 		 * Kreisform der Balls aus und benutzt einen Opening-Operator mit
@@ -313,19 +305,14 @@ public class MainUE2 {
 		 * 5a. wähle Parameter des Operators: Größe der Maske (Alternative:
 		 * laufe mehrmals mit dem Operator über das Bild)
 		 */
-		new Thread(
-				new BallFilter(ballPipe, resultPipe)
-		).start();
-		
-		
+		new Thread(new BallFilter(ballPipe, resultPipe)).start();
+
 		/**********
 		 * 6.Resultatbild (ein Bild, in dem nur die „balls“ als Scheiben zu
 		 * sehen sind.)in einer Datei abspeichern, aber nicht als Sink
 		 * realisieren, sondern nach der Abspeicherung das unveränderte Bild
 		 * weiterleiten.
 		 */
-		
-		
 
 		/**********
 		 * 7.Scheiben zählen, ihre Zentren (Centroid, siehe unten) bestimmen,
@@ -334,7 +321,6 @@ public class MainUE2 {
 		 * Initialisierungsdaten an das Filterobjekt übergeben. Resultat in eine
 		 * txt Datei schreiben.
 		 */
-		
-		 
+
 	}
 }
