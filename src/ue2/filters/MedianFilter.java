@@ -11,8 +11,9 @@ import javax.media.jai.operator.MedianFilterShape;
 import interfaces.Readable;
 import interfaces.Writeable;
 import ue2.helpers.ImageSaver;
+import ue2.helpers.ImageViewer;
 
-public class MedianFilter extends DataTransformationFilter<PlanarImage> {
+public class MedianFilter extends MyAbstractFilter<PlanarImage> {
 
 	private Integer _maskSize;
 	private MedianFilterShape _maskShape;
@@ -37,11 +38,15 @@ public class MedianFilter extends DataTransformationFilter<PlanarImage> {
 	}
 
 	@Override
-	protected void process(PlanarImage image) {
+	protected PlanarImage process(PlanarImage image) {
 
 		ParameterBlock pb = prepareParameterBlock(image);
 		PlanarImage planarImage = JAI.create("medianfilter", pb);
+		
 		ImageSaver.save(planarImage, "MedianFilter");
+		ImageViewer.show(planarImage, "MedianFilter");
+		
+		return planarImage;
 	}
 
 	private ParameterBlock prepareParameterBlock(PlanarImage image) {

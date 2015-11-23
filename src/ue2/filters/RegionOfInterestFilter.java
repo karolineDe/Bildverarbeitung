@@ -11,7 +11,7 @@ import ue2.helpers.ImageSaver;
 import ue2.helpers.ImageViewer;
 import interfaces.Readable;
 
-public class RegionOfInterestFilter extends DataTransformationFilter<PlanarImage> {
+public class RegionOfInterestFilter extends MyAbstractFilter<PlanarImage> {
 
 	private final Rectangle _rectangle;
 
@@ -32,11 +32,14 @@ public class RegionOfInterestFilter extends DataTransformationFilter<PlanarImage
 	}
 
 	@Override
-	protected void process(PlanarImage image) {
+	protected PlanarImage process(PlanarImage image) {
 
 		/** get ROI **/
 		image = PlanarImage
 				.wrapRenderedImage((RenderedImage) image.getAsBufferedImage(_rectangle, image.getColorModel()));
 		ImageSaver.save(image, "RegionOfInterestFilter");
+		ImageViewer.show(image, "RegionOfInterestFilter");
+		
+		return image;
 	}
 }

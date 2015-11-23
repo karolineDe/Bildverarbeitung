@@ -6,17 +6,21 @@ import java.io.StreamCorruptedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 
+import interfaces.Readable;
 import interfaces.Writeable;
+import ue2.helpers.Coordinate;
 
 
-public class OutputFileSink<T> implements Writeable<T>{
+public class OutputFileSink implements Writeable<LinkedList<Coordinate>>, Runnable {
 
+	private Readable<LinkedList<Coordinate>> _input;
 	private Path _outputFilePath;
 	private BufferedWriter _bw;
 	
-	public OutputFileSink(String outputfilepath){		
-		
+	public OutputFileSink(Readable<LinkedList<Coordinate>> input, String outputfilepath){		
+		_input = input;
 		_outputFilePath = Paths.get(outputfilepath);
 		
 		try{
@@ -28,8 +32,33 @@ public class OutputFileSink<T> implements Writeable<T>{
 	}
 
 	@Override
-	public void write(T value) throws StreamCorruptedException {
-		// TODO Auto-generated method stub
+	public void write(LinkedList<Coordinate> values) throws StreamCorruptedException {
+		if (values != null) {
+			for (Coordinate coordinate : values) {
+				System.out.println(coordinate._x  + " | " +  coordinate._y);
+			}
+		}
+	}
+
+	@Override
+	public void run() {
 		
+		if (_input != null) {
+			LinkedList<Coordinate> inputObject;
+			
+			try {
+				
+				do {
+				
+					inputObject = _input.read();
+					write(inputObject);
+					
+				} while (inputObject != null);
+			
+			} catch (StreamCorruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

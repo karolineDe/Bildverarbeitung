@@ -10,7 +10,7 @@ import interfaces.Writeable;
 import ue2.helpers.ImageSaver;
 import interfaces.Readable;
 
-public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
+public class ThresholdFilter extends MyAbstractFilter<PlanarImage> {
 
     private final double[][] _parameters;
 
@@ -33,12 +33,14 @@ public class ThresholdFilter extends DataTransformationFilter<PlanarImage> {
     }
 
     @Override
-    protected void process(PlanarImage image) {
+    protected PlanarImage process(PlanarImage image) {
     	
         ParameterBlock pb = prepareParameterBlock(image, _parameters);
         
         image = JAI.create("threshold", pb);
         ImageSaver.save(image, "ThresholdFilter");
+        
+        return image;
     }
 
 	private ParameterBlock prepareParameterBlock(PlanarImage image, double[][] parameters) {

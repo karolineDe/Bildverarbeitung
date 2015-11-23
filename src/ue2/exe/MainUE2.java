@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.media.jai.PlanarImage;
 
+import interfaces.Readable;
 import ue2.filters.BallFilter;
 import ue2.filters.CalcCentroidsFilter;
 import ue2.filters.MedianFilter;
@@ -64,30 +65,25 @@ public class MainUE2 {
 		/** source: image supplier pipe **/
 		ImageStreamSupplierPipe imageStreamSupplierPipe = new ImageStreamSupplierPipe("loetstellen.jpg");
 		BufferedSyncPipe<PlanarImage> endOfViewPipe = new BufferedSyncPipe<>(1);
-		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
+//		BufferedSyncPipe<PlanarImage> thresholdPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> searchMedianPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> centroidsPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<LinkedList<Coordinate>> coordinatesPipe = new BufferedSyncPipe<>(1);
 
 		/*********** 1. das Bild laden und visualisieren */
-		try {
-			image = imageStreamSupplierPipe.read();
-		} catch (StreamCorruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-				
-		ImageSaver.save(image, "Original");
-		ImageViewer.show(image, "Original");
+//		try {
+//			image = imageStreamSupplierPipe.read();
+//		} catch (StreamCorruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		ImageSaver.save(image, "Original");
+//		ImageViewer.show(image, "Original");
 
 		/*********** 2. eine ROI (region of interest1) definieren */
 		/** get ROI **/
-		String roiFilter = "RegionOfInterestFilter";
-		image = PlanarImage
-				.wrapRenderedImage((RenderedImage) image.getAsBufferedImage(roiRectangle, image.getColorModel()));
-		ImageSaver.save(image, roiFilter);
-		ImageViewer.show(image, roiFilter);
+		RegionOfInterestFilter roi = new RegionOfInterestFilter(imageStreamSupplierPipe, roiRectangle);
 		
 
 		/***********
@@ -97,9 +93,9 @@ public class MainUE2 {
 		/* color values: lower range, upper range, end result */
 		double[][] thresholdParameters = { new double[] { 0 }, new double[] { 28 }, new double[] { 255 } };
 
-		ThresholdFilter thresholdFilter = new ThresholdFilter(thresholdPipe, searchMedianPipe, thresholdParameters);
-		PlanarImage thImage = thresholdFilter.getThImage(image);
-		ImageViewer.show(thImage, "ThresholdFilter");
+		ThresholdFilter thresholdFilter = new ThresholdFilter((Readable<PlanarImage>) roi, thresholdParameters);
+//		PlanarImage thImage = thresholdFilter.getThImage(image);
+//		ImageViewer.show(thImage, "ThresholdFilter");
 
 		/***********
 		 * 4. beseitige lokale Störungen (z.B. schwarzer Fleck im 2. Anschluss
@@ -109,10 +105,9 @@ public class MainUE2 {
 		 */
 		Integer maskSize = 6;
 		
-		MedianFilter medianFilter = new MedianFilter(searchMedianPipe, ballPipe, maskSize);
-		PlanarImage medianImage = medianFilter.getMedianImage(thImage);
-		ImageSaver.save(medianImage, "MedianFilter");
-		ImageViewer.show(medianImage, "MedianFilter");
+		MedianFilter medianFilter = new MedianFilter((Readable<PlanarImage>)thresholdFilter, maskSize);
+//		PlanarImage medianImage = medianFilter.getMedianImage(thImage);
+//		ImageViewer.show(medianImage, "MedianFilter");
 
 		/***********
 		 * 5. nun bleiben noch die Kabelanschlüsse der „balls“; man nutzt die
@@ -128,10 +123,9 @@ public class MainUE2 {
 		 * weiterleiten.
 		 */
 		
-		BallFilter ballFilter = new BallFilter(ballPipe, centroidsPipe);
-		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
-		ImageSaver.save(ballImage, "BallFilter");
-		ImageViewer.show(ballImage, "BallFilter");
+		BallFilter ballFilter = new BallFilter((Readable<PlanarImage>)medianFilter);
+//		PlanarImage ballImage = ballFilter.getBallImage(medianImage);
+//		ImageViewer.show(ballImage, "BallFilter");
 		
 		/**********
 		 * 7.Scheiben zählen, ihre Zentren bestimmen,
@@ -141,17 +135,11 @@ public class MainUE2 {
 		 * txt Datei schreiben.
 		 */
 		
-		LinkedList<Coordinate> results = new LinkedList<>();
-		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(centroidsPipe, coordinatesPipe);
+		//LinkedList<Coordinate> results = new LinkedList<>();
+		CalcCentroidsFilter calcFilter = new CalcCentroidsFilter(ballFilter);
 		
-		try {
-			results.addAll(calcCentroidsFilter.read());
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		// TODO check how list can be saved with sink
-		OutputFileSink<LinkedList<Coordinate>> sink = new OutputFileSink<>("results.txt");
+		new OutputFileSink(calcFilter, "results.txt").run();
 	}
 
 	private static void runTaskAPull() {

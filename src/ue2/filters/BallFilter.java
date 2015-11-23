@@ -13,8 +13,9 @@ import javax.media.jai.PlanarImage;
 import interfaces.Readable;
 import interfaces.Writeable;
 import ue2.helpers.ImageSaver;
+import ue2.helpers.ImageViewer;
 
-public class BallFilter extends DataTransformationFilter<PlanarImage>{
+public class BallFilter extends MyAbstractFilter<PlanarImage>{
 
 	private static final int _kernelSize = 10;
 	
@@ -49,7 +50,7 @@ public class BallFilter extends DataTransformationFilter<PlanarImage>{
 	}
 
 	@Override
-	protected void process(PlanarImage image) {
+	protected PlanarImage process(PlanarImage image) {
 		
 	    ParameterBlock pb = prepareParameterBlock(image);
 	    
@@ -61,6 +62,9 @@ public class BallFilter extends DataTransformationFilter<PlanarImage>{
 	    outputImage = JAI.create("dilate",pb);
 		
 	    ImageSaver.save(outputImage, "BallFilter");
+	    ImageViewer.show(outputImage, "BallFilter");
+	    
+	    return outputImage;
 	}
 	
 	private ParameterBlock prepareParameterBlock(PlanarImage image){
