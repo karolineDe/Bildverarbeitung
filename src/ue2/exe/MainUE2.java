@@ -150,7 +150,7 @@ public class MainUE2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		// TODO check how list can be saved with sink
 		OutputFileSink<LinkedList<Coordinate>> sink = new OutputFileSink<>("results.txt");
 	}
 
