@@ -9,6 +9,7 @@ import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.media.jai.PlanarImage;
 
@@ -22,6 +23,10 @@ public class CalcCentroidsFilter extends DataEnrichmentFilter<PlanarImage, Linke
 	private HashMap<Coordinate, Boolean> _general = new HashMap<Coordinate, Boolean>();
 	private LinkedList<LinkedList<Coordinate>> _figures = new LinkedList<LinkedList<Coordinate>>();
 	private PlanarImage _image;
+	
+	public CalcCentroidsFilter (Readable<PlanarImage> input, Writeable<LinkedList<Coordinate>> output){
+		super(input, output);
+	}
 	
 	public CalcCentroidsFilter(Readable<PlanarImage> input) throws InvalidParameterException {
 		super(input);

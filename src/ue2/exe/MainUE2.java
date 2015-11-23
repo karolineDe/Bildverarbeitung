@@ -3,19 +3,17 @@ package ue2.exe;
 import java.awt.Rectangle;
 import java.awt.image.RenderedImage;
 import java.io.StreamCorruptedException;
-import java.security.InvalidParameterException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.media.jai.PlanarImage;
 
-import ue2.helpers.Coordinate;
 import ue2.filters.BallFilter;
 import ue2.filters.CalcCentroidsFilter;
 import ue2.filters.MedianFilter;
 import ue2.filters.RegionOfInterestFilter;
 import ue2.filters.ThresholdFilter;
-import ue2.filters.ViewImageFilter;
+import ue2.helpers.Coordinate;
 import ue2.helpers.ImageSaver;
 import ue2.helpers.ImageViewer;
 import ue2.pipes.BufferedSyncPipe;
@@ -286,6 +284,8 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> resultPipe = new BufferedSyncPipe<>(1);
 		
+
+		/*********** 1. das Bild laden und speichern */
 		/*********** 1. das Bild laden und visualisieren */
 		try {
 			image = imageStreamSupplierPipe.read();
