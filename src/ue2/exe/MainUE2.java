@@ -284,8 +284,6 @@ public class MainUE2 {
 		BufferedSyncPipe<PlanarImage> ballPipe = new BufferedSyncPipe<>(1);
 		BufferedSyncPipe<PlanarImage> resultPipe = new BufferedSyncPipe<>(1);
 		
-
-		/*********** 1. das Bild laden und speichern */
 		/*********** 1. das Bild laden und visualisieren */
 		try {
 			image = imageStreamSupplierPipe.read();
@@ -296,6 +294,7 @@ public class MainUE2 {
 				
 		ImageSaver.save(image, "Original");
 		ImageViewer.show(image, "Original");
+		
 //		new Thread(
 //				new ViewImageFilter(imageStreamSupplierPipe, endOfViewPipe)
 //		).start();
