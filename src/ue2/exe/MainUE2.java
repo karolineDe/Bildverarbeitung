@@ -144,12 +144,6 @@ public class MainUE2 {
 		LinkedList<Coordinate> results = new LinkedList<>();
 		CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter(centroidsPipe, coordinatesPipe);
 		
-		try {
-			results.addAll(calcCentroidsFilter.read());
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		// TODO check how list can be saved with sink
 		OutputFileSink<LinkedList<Coordinate>> sink = new OutputFileSink<>("results.txt");
 	}
