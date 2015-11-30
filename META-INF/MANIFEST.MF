@@ -1,0 +1,249 @@
+Manifest-Version: 1.0
+Class-Path: .
+Main-Class: sun.beanbox.BeanBoxFrame
+
+Name: javax/infobus/InfoBusItemAvailableEvent.class
+SHA-Digest: 1H5L2hBQI9UVb6NkNRct44fpXWM=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: k7Wwxxfza3m84R+eIMprPQ==
+
+Name: javax/infobus/RowsetCursorMovedEvent.class
+SHA-Digest: q0N607wYvySWzd5FrZPVxiAjzuI=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: O1QT5SUgVGZ6ic+DTigmyA==
+
+Name: javax/infobus/InfoBusItemRevokedEvent.class
+SHA-Digest: xNf3/qpgZmwHv/+AN9SKH4pVcwE=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: QA59ezNLoRSsLxIlioU3rQ==
+
+Name: javax/infobus/InfoBusPropertyMap.class
+SHA-Digest: A3oFvE1BkoNWW5wEySDuBkALPfo=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: lMv2ZnioQXtOOszf3Bo8lw==
+
+Name: javax/infobus/DataItemChangeListenerSupport.class
+SHA-Digest: ybbuy81H3SHrxuYeJ+e4HZZGTDk=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: TQ2/OuPrDx7CWgu3yVbz1Q==
+
+Name: javax/infobus/InfoBusMember.class
+SHA-Digest: o1NwY0s84/Z5MJFWTTe3u6LiRt8=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: w9VOUGwJ3hFu5B/b6iNm4Q==
+
+Name: javax/infobus/DataItemShapeChangedEvent.class
+SHA-Digest: KfLBhQBVkyGdZP/emSj7KjRmWJk=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: qdQy10OI2t8DgQxTOpWqfQ==
+
+Name: javax/infobus/DataItem.class
+SHA-Digest: z/sOHPiGTKqF1zk1rLUnoigVtYk=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: 1Td2Wu2XDCH+JuwfCpJyjg==
+
+Name: javax/infobus/DataItemDeletedEvent.class
+SHA-Digest: 82GMt3yrQExvcgb61scluszn90A=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: PPTSUK/3leTYSlLm9/+fPA==
+
+Name: javax/infobus/InvalidDataException.class
+SHA-Digest: 5GK52eoxS0fL9/sZQYoCSGATHhI=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: Di9IKgz9uAUbTW7LMKLXIw==
+
+Name: javax/infobus/DataItemView.class
+SHA-Digest: K8QWvMaUXFaLBynLkP029ZWVXm4=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: gKgWyZ7gWqxS6MVtX8wK2A==
+
+Name: javax/infobus/DataItemRevokedEvent.class
+SHA-Digest: NmFLxcn50sy4vWsGGJYzMxJHRlQ=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: vVlSKdUiSGu6yFtx2+jjWg==
+
+Name: javax/infobus/InfoBusMemberSupport.class
+SHA-Digest: z++1c3gvdXo10aMIQoDz20k26iA=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: YqyAqIYyJtHHOF0MAsGmXg==
+
+Name: javax/infobus/DataItemShapeChangeListener.class
+SHA-Digest: q2GPyv2T6RH6RxiLJHcviUl+4Pg=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: V9pX364fqHfzTuhZbGG+rw==
+
+Name: javax/infobus/DataItemChangeSupport.class
+SHA-Digest: OUKn+irSjQ+oz3F73xrJRnzdkJM=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: cziyJa2opKS1IL7nNL83Ig==
+
+Name: javax/infobus/DataItemChangeManagerSupport.class
+SHA-Digest: aLAJwOPWBTLzYklMi+elGVK3tDM=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: SGdusrIWGHspSWTvI2idOQ==
+
+Name: javax/infobus/DbAccess.class
+SHA-Digest: zpbd6+EVWlhA/tWX9arXuRY3m3s=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: z8WxGv5CHm++P1RRf81xyQ==
+
+Name: javax/infobus/UnsupportedOperationException.class
+SHA-Digest: 4haICYJBRuK+PCRW9stcaX2YKJE=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: AcVF6C6HP+ODnzikM8l9Eg==
+
+Name: javax/infobus/InfoBusMembershipException.class
+SHA-Digest: S5nPAOoFYg6MiZh5PzlJWB7J26w=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: 1eDQnhTT+sV35urQKKisDQ==
+
+Name: javax/infobus/ArrayAccess.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: DhlR9cSXeXy4bH1EBgVt+zzK1Qg=
+MD5-Digest: 7aTltRUpsGKa+baNU3fmTA==
+
+Name: javax/infobus/DataItemAddedEvent.class
+SHA-Digest: 1022TdSmRleuB2FuOEXzfPywXRA=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: Hy5A0I6drVvbGm35igbPQw==
+
+Name: javax/infobus/InfoBusDataController.class
+SHA-Digest: PP/TFqnY1kLAeV1DfpVGJphf5fU=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: Ys+bG2+HpxYeaHqRq2XTzQ==
+
+Name: javax/infobus/DataItemValueChangedEvent.class
+SHA-Digest: 1eg+0Y5Pmo3iAnkG3BNnp4ZE5Hc=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: EVLbIzr8igUvvQn1YcQCnw==
+
+Name: javax/infobus/DefaultController.class
+SHA-Digest: IbV39S6OPckE/ulRfv+jRFqlHqs=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: cHK72d7fq91ynZVm+WGy3Q==
+
+Name: javax/infobus/ColumnNotFoundException.class
+SHA-Digest: 5F0KOdhMpgpzT7x5jLi4DqumygQ=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: I37lR8KTHUQDhN2blf/wmw==
+
+Name: javax/infobus/RowsetAccess.class
+SHA-Digest: /GtgRuTQrNWgzrI8gFQ8R7odXwk=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: zBGtQBxTEjl0GEd+bDT2lQ==
+
+Name: javax/infobus/InfoBus.class
+SHA-Digest: smQYEmAL1sO6RmmkAlpWV3QCQFA=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: TztU1Ul1C9hH5ybUTpWUOg==
+
+Name: javax/infobus/ReshapeableArrayAccess.class
+SHA-Digest: XoE7dQKM2N6wvkvn6BGB/b7t03I=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: 0Wiv+prM0V1ERNb0FE+aZw==
+
+Name: javax/infobus/InfoBusEventListener.class
+SHA-Digest: OBkVurMmsc5JGbQzeu2UXZ8nH8Y=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: czfXqY5DH4NdQxh1YAly1Q==
+
+Name: javax/infobus/InfoBusBeanSupport.class
+SHA-Digest: koCe804N3KcVS3Co9BQjRvNw0r8=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: OBp+AUYS1ZCkr9h7i/I0cA==
+
+Name: javax/infobus/RowsetValidate.class
+SHA-Digest: HL1NtVkZTMCNUN5GAonnUPzbEdI=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: QA5bDxlk3g4+l0n0heQS+Q==
+
+Name: javax/infobus/InfoBusBean.class
+SHA-Digest: Ds7z6ODwZJtH2sktLSg/UvEYC3Q=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: rjUnFtvwOZ1WWK42M0K2Bw==
+
+Name: javax/infobus/ImmediateAccess.class
+SHA-Digest: Hl6mB1CUbOvtPS7ObvSwVRvrlcE=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: nmamVFjqAEtbaaUmlQMD6w==
+
+Name: javax/infobus/DuplicateColumnException.class
+SHA-Digest: VN8FlYKUWiMzL3BQ0oenly3Pejc=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: djmrriLgE2aGDjDHOugxkg==
+
+Name: javax/infobus/PrioritizedDCList.class
+SHA-Digest: V4xvPENmRRgTMJBaI5bqPHUS8Xk=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: Yy4Fcs5H3Xe91JEGFuFT+Q==
+
+Name: javax/infobus/ScrollableRowsetAccess.class
+SHA-Digest: APiy7JPQyNWWAEjp1BU6c6W8Nuo=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: h9riM/MvKiAWPvCEt9nCnA==
+
+Name: javax/infobus/InfoBusItemRequestedEvent.class
+SHA-Digest: iyOLXCyEO7wPcIttfUceZa/+DB8=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: 9Dg2giJTEVYd46NjZ5xrCg==
+
+Name: javax/infobus/DefaultPolicy.class
+SHA-Digest: 4MGkhOthYmzK5UQzDu+HlMOkGOk=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: VE8xqYn/+yxgzUELdNpNHQ==
+
+Name: javax/infobus/InfoBusDataProducerProxy.class
+SHA-Digest: iHojOXgXyJl5a2YNYJrNC7ZxJ7g=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: LSLICja99kBNjVvarMs/+g==
+
+Name: javax/infobus/DataItemChangeListener.class
+SHA-Digest: Btk30DnKuHSntLmf+3r0Z92Bt9c=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: 1fsBTkHT/248qWna2v6dVA==
+
+Name: javax/infobus/StaleInfoBusException.class
+SHA-Digest: kW46UJAlPw1AFPi6xk4aXqR7P5E=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: n1k0C8O5QBkKG8NVA+tYyA==
+
+Name: javax/infobus/InfoBusEvent.class
+SHA-Digest: ndEL8bhQBc8lSCxy56D9UOPFCTA=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: 6vTymBygYHo1OLhtAUpuWw==
+
+Name: javax/infobus/RowsetValidationException.class
+SHA-Digest: h5TgcFAD3Ls0T5ugH4PIWVWUv0o=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: HKJeWfqzGuc4TxKEa0SOzg==
+
+Name: javax/infobus/InfoBusDataProducer.class
+SHA-Digest: ovkWYOTfSuBWgXeYH5+GdLzlmOc=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: ADdQCsg2O0HR4LdAkl222A==
+
+Name: javax/infobus/InfoBusDataConsumer.class
+SHA-Digest: LuDQV3PY18k2pL3/u/vg7T6Uy4c=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: Wml2u4FzZOM/rOWTjwtQmQ==
+
+Name: javax/infobus/InfoBusDataConsumerProxy.class
+SHA-Digest: 77mDv0n2qghN13mPlJm8n50s7E0=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: XomeHtWi08Vxa3qvzOLftw==
+
+Name: javax/infobus/InfoBusPolicyHelper.class
+SHA-Digest: t2XKZTn/mXQzRXJFX0w6udL/H0k=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: dTuhDMwVeZcELEUzwtZu9Q==
+
+Name: javax/infobus/DataItemChangeEvent.class
+SHA-Digest: g1hSJP9jjDskQyUztg1zNW72suM=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: l/68b7rMwOpc9hzP3kA6bw==
+
+Name: javax/infobus/DataItemChangeManager.class
+SHA-Digest: 9llBHJuaSLWp71+y1Oz5A5E0y4U=
+Digest-Algorithms: SHA MD5 
+MD5-Digest: +ZsvAKf4wh4cADKWs1Rerw==
+
